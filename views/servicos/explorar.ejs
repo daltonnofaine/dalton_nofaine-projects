@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Explorar Servicos</title>
+  <link rel="stylesheet" href="/css/base/estilo.css">
+  <link rel="stylesheet" href="/css/servicos/explorar.css">
+</head>
+<body>
+  <% if (sessao && sessao.perfil === "cliente") { %>
+    <%- include("../partials/navbar-cliente") %>
+  <% } else { %>
+    <%- include("../partials/navbar-public") %>
+  <% } %>
+
+  <div class="layout-explorar">
+    <div class="coluna-filtros">
+      <h3>Filtros</h3>
+      <form method="get" action="/servicos" id="form-filtros">
+        <div class="grupo-filtro grupo-filtro-inicial">
+          <h4>Categoria</h4>
+          <% categorias.forEach((cat) => { %>
+            <label><input type="checkbox" name="categoria" value="<%= cat.id %>" <%= String(filtros.categoria) === String(cat.id) ? "checked" : "" %>> <%= cat.nome %></label>
+          <% }) %>
+        </div>
+
+        <div class="grupo-filtro">
+          <h4>Preco (MZ/hora)</h4>
+          <div class="linha-preco">
+            <input type="number" name="precoMin" placeholder="Min" value="<%= filtros.precoMin || "" %>">
+            <input type="number" name="precoMax" placeholder="Max" value="<%= filtros.precoMax || "" %>">
+          </div>
+        </div>
+
+        <div class="grupo-filtro">
+          <h4>Avaliacao minima</h4>
+          <label><input type="radio" name="avaliacao" value="5" <%= filtros.avaliacao === "5" ? "checked" : "" %>> 5 estrelas</label>
+          <label><input type="radio" name="avaliacao" value="4" <%= filtros.avaliacao === "4" ? "checked" : "" %>> 4 estrelas ou mais</label>
+          <label><input type="radio" name="avaliacao" value="3" <%= filtros.avaliacao === "3" ? "checked" : "" %>> 3 estrelas ou mais</label>
+        </div>
+
+        <button class="btn-enviar btn-filtros" type="submit">Aplicar Filtros</button>
+      </form>
+    </div>
+
+    <div class="coluna-resultados">
+      <div class="cabecalho-resultados">
+        <h2>Servicos <span>- <strong><%= total %></strong> resultados</span></h2>
+        <input type="text" id="input-pesquisa-topo" class="pesquisa-topo" placeholder="Pesquisar..." value="<%= filtros.q || "" %>">
+      </div>
+
+      <div id="grade-servicos">
+        <% servicos.forEach((s) => { %>
+          <a href="/servicos/<%= s.id %>" class="card-servico">
+            <div class="imagem-thumb">
+              <% if (s.categorias && s.categorias.icone_url) { %>
+                <img src="<%= s.categorias.icone_url %>" alt="<%= s.categorias.nome %>">
+              <% } %>
+            </div>
+            <div class="info">
+              <div class="categoria"><%= s.categorias ? s.categorias.nome : "Servico" %></div>
+              <h4><%= s.titulo %></h4>
+              <div class="prestador">
+                <span class="avatar-prestador" aria-hidden="true"></span>
+                por <strong><%= s.prestadores?.utilizadores?.nome || "Prestador" %></strong> - <%= s.prestadores?.cidade || "Cidade" %>
+              </div>
+              <div class="linha-meta">
+                <span class="avaliacao">★★★★★</span>
+                <span class="num-aval"><%= s.prestadores?.total_avaliacoes || 0 %> avaliacoes</span>
+                <span class="<%= s.prestadores?.disponivel ? 'disponivel' : 'ocupado' %>"><%= s.prestadores?.disponivel ? 'Disponivel' : 'Ocupado hoje' %></span>
+                <button class="btn-preenchido btn-acao-servico" type="button">Ver Servico</button>
+              </div>
+            </div>
+            <div class="preco-col">
+              <div class="valor"><%= formatarPreco(s.preco) %></div>
+              <div class="unidade">/<%= s.unidade_preco || "hora" %></div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+
+      <% if (totalPaginas > 1) { %>
+        <div class="paginacao">
+          <% for (let i = 1; i <= totalPaginas; i += 1) { %>
+            <button class="<%= pagina === i ? 'activo' : '' %>" type="button"><%= i %></button>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <%- include("../partials/footer-simples") %>
+  <script src="/js/filtros.js"></script>
+</body>
+</html>

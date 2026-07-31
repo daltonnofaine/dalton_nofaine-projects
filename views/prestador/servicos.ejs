@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Dashboard - Meus Servicos</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/dashboard.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-prestador") %>
+
+    <div class="layout-dashboard">
+      <%- include("../partials/sidebar-prestador") %>
+
+      <div class="conteudo-dashboard">
+        <section class="secao-dashboard activa" id="secao-servicos">
+          <div class="cabecalho-dash">
+            <div>
+              <h2>Os Meus Servicos</h2>
+              <p>Gira os servicos que voce disponibiliza na plataforma</p>
+            </div>
+            <button class="btn-vermelho" type="button" onclick="document.getElementById('ns-titulo').focus()">+ Adicionar Servico</button>
+          </div>
+
+          <div id="novo-servico-feedback" class="nota-form" style="color: var(--vermelho);"></div>
+
+          <article class="painel" style="margin-bottom: 24px;">
+            <div class="cabecalho-painel">Novo Servico</div>
+            <div class="form-definicoes">
+              <div class="dois-campos">
+                <div class="campo">
+                  <label>Titulo</label>
+                  <input id="ns-titulo" type="text" placeholder="Ex: Manutencao de Websites" />
+                </div>
+                <div class="campo">
+                  <label>Categoria</label>
+                  <select id="ns-categoria">
+                    <option value="">Sem categoria</option>
+                    <% categorias.forEach((c) => { %>
+                      <option value="<%= c.id %>"><%= c.nome %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              </div>
+              <div class="dois-campos">
+                <div class="campo">
+                  <label>Preco</label>
+                  <input id="ns-preco" type="number" placeholder="Ex: 1500" />
+                </div>
+                <div class="campo">
+                  <label>Unidade</label>
+                  <select id="ns-unidade">
+                    <option value="servico">servico</option>
+                    <option value="hora">hora</option>
+                    <option value="dia">dia</option>
+                  </select>
+                </div>
+              </div>
+              <div class="campo">
+                <label>Descricao</label>
+                <textarea id="ns-descricao" placeholder="Descreva brevemente o servico."></textarea>
+              </div>
+              <button class="btn-preenchido btn-salvar" type="button" onclick="guardarNovoServico()">Criar servico</button>
+            </div>
+          </article>
+
+          <div class="grade-cards">
+            <% if (!servicos.length) { %>
+              <article class="card-dashboard">
+                <h4>Ainda sem servicos</h4>
+                <p>Crie o primeiro servico para comecar a receber pedidos pelo dashboard.</p>
+                <div class="rodape-card">
+                  <span class="estado pendente">rascunho</span>
+                  <span class="meta-card">0 pedidos</span>
+                </div>
+              </article>
+            <% } else { %>
+              <% servicos.forEach((s) => { %>
+                <article class="card-dashboard" id="servico-<%= s.id %>">
+                  <h4><%= s.titulo %></h4>
+                  <p><%= s.descricao || 'Servico sem descricao detalhada por enquanto.' %></p>
+                  <div class="rodape-card">
+                    <span class="estado <%= s.estado %>"><%= s.estado %></span>
+                    <span class="meta-card"><%= s.categorias ? s.categorias.nome : 'Sem categoria' %> • <%= s.total_pedidos || 0 %> pedidos</span>
+                  </div>
+                  <div class="accoes-ficha" style="margin-top: 16px;">
+                    <button class="btn-preenchido" type="button"><%= formatarPreco(s.preco) %> / <%= s.unidade_preco %></button>
+                    <button class="btn" data-estado="<%= s.estado %>" onclick="toggleServico('<%= s.id %>', this)" type="button"><%= s.estado === 'activo' ? 'Pausar' : 'Activar' %></button>
+                  </div>
+                </article>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+    <script src="/js/dashboard-servicos.js"></script>
+  </body>
+</html>

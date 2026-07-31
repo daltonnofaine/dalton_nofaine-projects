@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Perfil do Cliente</title>
+  <link rel="stylesheet" href="/css/base/estilo.css">
+  <link rel="stylesheet" href="/css/cliente/perfil-cliente.css">
+</head>
+<body>
+  <%- include("../partials/navbar-cliente") %>
+
+  <main class="layout-perfil">
+    <section class="cabecalho-perfil">
+      <div class="avatar-grande">
+        <img src="<%= cliente.avatar_url || '/img/shared/avatares/iconi_perfil.svg' %>" alt="Foto do cliente">
+      </div>
+      <div class="dados-principais">
+        <h1>MEU PERFIL - <%= cliente.nome %></h1>
+        <p>Mantenha os seus dados actualizados e acompanhe as suas solicitacoes enviadas aos prestadores.</p>
+        <div class="tags-resumo">
+          <span>Conta activa</span>
+          <span><%= pedidos.length %> Solicitacoes Enviadas</span>
+        </div>
+      </div>
+      <button class="btn-vermelho" id="btn-guardar-perfil" onclick="guardarPerfil()">Salvar Alteracoes</button>
+    </section>
+
+    <section class="grade-perfil">
+      <article class="painel">
+        <div class="cabecalho-painel">Configuracoes Basicas</div>
+        <div class="corpo-painel">
+          <div id="perfil-feedback"></div>
+          <div class="dois-campos">
+            <div class="campo">
+              <label>Nome Completo</label>
+              <input id="perfil-nome" type="text" value="<%= cliente.nome %>">
+            </div>
+            <div class="campo">
+              <label>Telefone</label>
+              <input id="perfil-telefone" type="text" value="<%= cliente.telefone || '' %>">
+            </div>
+          </div>
+
+          <div class="dois-campos">
+            <div class="campo">
+              <label>Email</label>
+              <input type="email" value="<%= cliente.email %>" disabled>
+            </div>
+            <div class="campo">
+              <label>Cidade</label>
+              <input id="perfil-cidade" type="text" value="<%= cliente.clientes ? (cliente.clientes.cidade || '') : '' %>">
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>Biografia</label>
+            <textarea id="perfil-biografia" placeholder="Fale um pouco sobre si..."><%= cliente.clientes ? (cliente.clientes.biografia || '') : '' %></textarea>
+          </div>
+        </div>
+      </article>
+
+      <article class="painel">
+        <div class="cabecalho-painel">Preferencias da Conta</div>
+        <div class="corpo-painel">
+          <div class="item-preferencia">
+            <div>
+              <strong>Receber notificacoes por email</strong>
+              <p>Actualizacoes de pedidos e mensagens dos prestadores.</p>
+            </div>
+            <input type="checkbox" id="perfil-notif-email" <%= cliente.clientes && cliente.clientes.notif_email ? "checked" : "" %>>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="painel">
+      <div class="cabecalho-painel">Solicitacoes Enviadas</div>
+      <div class="tabela-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Prestador</th>
+              <th>Servico</th>
+              <th>Data</th>
+              <th>Estado</th>
+              <th>Acao</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pedidos.forEach((p) => { %>
+              <tr>
+                <td><strong><%= p.prestadores?.utilizadores?.nome || "Prestador" %></strong></td>
+                <td><%= p.servicos?.titulo || "Servico" %></td>
+                <td><%= formatarData(p.criado_em) %></td>
+                <td><span class="estado <%= p.estado %>"><%= p.estado %></span></td>
+                <td><a href="/cliente/notificacoes?pedido=<%= p.id %>" class="link-acao">Ver detalhe</a></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../partials/footer-simples") %>
+  <script src="/js/perfil.js"></script>
+</body>
+</html>

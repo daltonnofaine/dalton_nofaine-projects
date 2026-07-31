@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatorios Admin - Serv-Link</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/admin/admin-sistema.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-admin") %>
+    <div style="display:flex;min-height:calc(100vh - 60px);">
+      <%- include("../partials/sidebar-admin") %>
+      <main style="padding:20px;flex:1;">
+        <h1>Relatorios</h1>
+        <p><a href="/admin/api/relatorios/exportar">Exportar CSV</a></p>
+        <p>Receita total: <strong><%= formatarPreco(kpis.receitaTotal) %></strong></p>
+        <p>Avaliacao media global: <strong><%= kpis.mediaGlobal %></strong></p>
+
+        <section style="margin-top:20px;">
+          <h2>Pedidos por estado</h2>
+          <ul>
+            <li>Pendentes: <%= kpis.contagens.pendente %></li>
+            <li>Confirmados: <%= kpis.contagens.confirmado %></li>
+            <li>Em curso: <%= kpis.contagens.em_curso %></li>
+            <li>Concluidos: <%= kpis.contagens.concluido %></li>
+            <li>Cancelados: <%= kpis.contagens.cancelado %></li>
+          </ul>
+        </section>
+
+        <section style="margin-top:20px;">
+          <h2>Top categorias</h2>
+          <% if (!kpis.topCat.length) { %>
+            <p>Sem dados.</p>
+          <% } else { %>
+            <ul>
+              <% kpis.topCat.forEach((c) => { %>
+                <li><%= c.nome %> - <%= c.total %> servicos</li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </section>
+      </main>
+    </div>
+  </body>
+  </html>
+

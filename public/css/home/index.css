@@ -1,0 +1,422 @@
+/* Estilos da pagina inicial */
+
+body {
+  font-family: "Segoe UI", "Trebuchet MS", Verdana, Arial, sans-serif;
+}
+
+.cabecalho-sec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.cabecalho-sec h2 {
+  margin: 0;
+}
+
+.cabecalho-sec a {
+  text-decoration: none;
+  color: var(--vermelho);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* Bloco principal do topo */
+.hero {
+  background: linear-gradient(90deg, #2b3d59 0%, #2e405e 52%, #324664 66%, #375070 100%);
+  position: relative;
+  overflow: hidden;
+  color: #f4f7fc;
+  padding: 70px 40px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-image:
+    linear-gradient(90deg, rgba(46, 64, 94, 0.14) 0%, rgba(46, 64, 94, 0.08) 45%, rgba(46, 64, 94, 0.02) 100%),
+    url("../../img/home/hero/imagem_de_fundo.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center, right center;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 50%;
+  width: 180px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(43, 61, 89, 0.96) 0%, rgba(43, 61, 89, 0.78) 35%, rgba(43, 61, 89, 0.32) 72%, rgba(43, 61, 89, 0) 100%);
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: bold;
+  line-height: 1.15;
+  max-width: 500px;
+  margin-bottom: 16px;
+}
+
+.hero h1 span {
+  color: var(--vermelho);
+}
+
+.hero p {
+  color: #f0f5ff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.65;
+  max-width: 440px;
+  margin-bottom: 28px;
+}
+
+.barra-pesquisa {
+  display: flex;
+  max-width: 500px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ecf2fb;
+}
+
+.barra-pesquisa input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  font-family: "Segoe UI", "Trebuchet MS", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+  color: var(--preto);
+}
+
+.barra-pesquisa input::placeholder {
+  color: #51627d;
+  opacity: 1;
+}
+
+.barra-pesquisa button {
+  background: var(--vermelho);
+  border: none;
+  padding: 0 24px;
+  color: var(--branco);
+  font-family: "Segoe UI", "Trebuchet MS", Verdana, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.hero .numeros {
+  display: flex;
+  gap: 36px;
+  margin-top: 32px;
+}
+
+.hero .numeros .numero {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.hero .numeros .legenda {
+  font-size: 15px;
+  font-weight: 600;
+  color: #eef4ff;
+  margin-top: 2px;
+}
+
+
+/* Secao que mostra os passos */
+.como-funciona {
+  padding: 60px 40px;
+  background: var(--fundo);
+  border-top: 2px solid var(--borda);
+}
+
+.como-funciona h2 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.como-funciona h2 span {
+  color: var(--vermelho);
+}
+
+.passos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.passo {
+  background: var(--branco);
+  border: 2px solid var(--borda);
+  padding: 28px 18px;
+  text-align: center;
+}
+
+.passo .numero-passo {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--vermelho);
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.passo h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #152033;
+  margin-bottom: 8px;
+}
+
+.passo p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #162338;
+  line-height: 1.75;
+}
+
+
+/* Lista de prestadores em destaque */
+.prestadores-verificados {
+  padding: 60px 40px;
+}
+
+.prestadores-verificados h2 {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.prestadores-verificados h2 span {
+  color: var(--vermelho);
+}
+
+.lista-prestadores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card-prestador {
+  border: 2px solid var(--borda);
+  padding: 18px;
+  background: var(--branco);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.card-prestador .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--borda);
+}
+
+.card-prestador .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-prestador h4 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.card-prestador .especialidade {
+  font-size: 16px;
+  font-weight: 600;
+  color: #162338;
+}
+
+.card-prestador .verificado {
+  display: inline-block;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  font-size: 14px;
+  font-weight: 700;
+  color: #1b2434;
+  padding: 2px 7px;
+  margin-top: 5px;
+}
+
+/* Categorias em destaque */
+.destaques-categorias {
+  padding: 60px 40px;
+  background: var(--fundo);
+  border-top: 2px solid var(--borda);
+  border-bottom: 2px solid var(--borda);
+}
+
+.destaques-categorias h2 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.destaques-categorias .cabecalho-sec h2 {
+  margin-bottom: 0;
+}
+
+.destaques-categorias h2 span {
+  color: var(--vermelho);
+}
+
+.grade-destaques {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card-destaque {
+  background: var(--branco);
+  border: 2px solid var(--borda);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.imagem-destaque {
+  width: 100%;
+  height: 130px;
+  border: 1px solid var(--borda);
+  background: #dde7f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.imagem-destaque img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.card-destaque h4 {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.card-destaque p {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.75;
+  color: #162338;
+  margin-bottom: 12px;
+}
+
+.meta-destaque {
+  display: inline-block;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  font-size: 14px;
+  font-weight: 700;
+  color: #1b2434;
+  padding: 4px 8px;
+  margin-top: auto;
+}
+
+footer h4 {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+footer a,
+footer p {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+footer .footer-base {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 980px) {
+  .hero::before {
+    width: 46%;
+  }
+
+  .hero::after {
+    right: 46%;
+    width: 120px;
+  }
+
+  .passos,
+  .lista-prestadores,
+  .grade-destaques {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    background: linear-gradient(135deg, #24344f 0%, #2e4464 100%);
+  }
+
+  .hero::before,
+  .hero::after {
+    display: none;
+  }
+
+  .hero,
+  .como-funciona,
+  .destaques-categorias,
+  .prestadores-verificados {
+    padding: 40px 18px;
+  }
+
+  .barra-pesquisa {
+    flex-direction: column;
+  }
+
+  .barra-pesquisa button {
+    padding: 12px 16px;
+  }
+
+  .hero .numeros {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .cabecalho-sec {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .passos,
+  .lista-prestadores,
+  .grade-destaques {
+    grid-template-columns: 1fr;
+  }
+}
+

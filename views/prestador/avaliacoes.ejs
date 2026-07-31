@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Dashboard - Avaliacoes</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/dashboard.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-prestador") %>
+
+    <div class="layout-dashboard">
+      <%- include("../partials/sidebar-prestador") %>
+
+      <div class="conteudo-dashboard">
+        <section class="secao-dashboard activa" id="secao-avaliacoes">
+          <div class="cabecalho-dash">
+            <div>
+              <h2>Avaliacoes</h2>
+              <p>Feedback recebido pelos clientes, organizado por cada servico prestado</p>
+            </div>
+          </div>
+
+          <div class="grade-resumo-avaliacoes">
+            <div class="cartao-metrica">
+              <div class="etiqueta">Media Geral</div>
+              <div class="valor"><%= avaliacoes.length ? (avaliacoes.reduce((acc, a) => acc + Number(a.pontuacao || 0), 0) / avaliacoes.length).toFixed(1) : '0.0' %></div>
+              <div class="variacao"><%= avaliacoes.length %> avaliacoes</div>
+            </div>
+            <div class="cartao-metrica">
+              <div class="etiqueta">Melhor Nota</div>
+              <div class="valor"><%= avaliacoes.length ? Math.max(...avaliacoes.map((a) => Number(a.pontuacao || 0))) : 0 %></div>
+              <div class="variacao">Maximo recebido</div>
+            </div>
+            <div class="cartao-metrica">
+              <div class="etiqueta">Ultimos 30 dias</div>
+              <div class="valor"><%= avaliacoes.filter((a) => (Date.now() - new Date(a.criado_em).getTime()) <= 30 * 24 * 60 * 60 * 1000).length %></div>
+              <div class="variacao">novas avaliacoes</div>
+            </div>
+          </div>
+
+          <div class="lista-avaliacoes-servico">
+            <% if (!avaliacoes.length) { %>
+              <article class="painel bloco-avaliacoes-servico">
+                <div class="cabecalho-painel cabecalho-avaliacoes-servico">
+                  <div>
+                    <h3>Ainda sem avaliacoes</h3>
+                    <p>Assim que os clientes concluirem pedidos, o feedback aparecera aqui.</p>
+                  </div>
+                  <span class="estrelas media-servico">☆☆☆☆☆</span>
+                </div>
+              </article>
+            <% } else { %>
+              <% avaliacoes.forEach((a) => { %>
+                <article class="painel bloco-avaliacoes-servico">
+                  <div class="cabecalho-painel cabecalho-avaliacoes-servico">
+                    <div>
+                      <h3><%= a.pedidos && a.pedidos.servicos ? a.pedidos.servicos.titulo : 'Servico' %></h3>
+                      <p><%= a.clientes && a.clientes.utilizadores ? a.clientes.utilizadores.nome : 'Cliente' %> • <%= formatarData(a.criado_em) %></p>
+                    </div>
+                    <span class="estrelas media-servico"><%= '★'.repeat(Number(a.pontuacao || 0)) %><%= '☆'.repeat(5 - Number(a.pontuacao || 0)) %></span>
+                  </div>
+                  <div class="avaliacao-item">
+                    <div class="linha-topo">
+                      <strong><%= a.clientes && a.clientes.utilizadores ? a.clientes.utilizadores.nome : 'Cliente' %></strong>
+                      <span class="estrelas"><%= '★'.repeat(Number(a.pontuacao || 0)) %><%= '☆'.repeat(5 - Number(a.pontuacao || 0)) %></span>
+                    </div>
+                    <small class="meta-avaliacao">Pedido #<%= a.pedidos ? a.pedidos.id : 'N/A' %></small>
+                    <p><%= a.comentario || 'Cliente nao deixou comentario escrito.' %></p>
+                  </div>
+                </article>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+  </body>
+</html>

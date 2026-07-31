@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operacoes Admin - Serv-Link</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/admin/admin-sistema.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-admin") %>
+    <div style="display:flex;min-height:calc(100vh - 60px);">
+      <%- include("../partials/sidebar-admin") %>
+      <main style="padding:20px;flex:1;">
+        <h1>Operacoes</h1>
+        <div id="operacoes-feedback"></div>
+        <% if (!campanhas.length) { %>
+          <p>Sem campanhas registadas.</p>
+        <% } else { %>
+          <ul>
+            <% campanhas.forEach((c) => { %>
+              <li style="margin-bottom:16px;border:1px solid #ddd;padding:12px;">
+                <strong><%= c.prestadores?.utilizadores?.nome || "Prestador" %></strong>
+                - <%= c.plano %>
+                <br />
+                Pagamento: <%= c.estado_pagamento %> | Campanha: <%= c.estado_campanha %>
+                <br />
+                <button onclick="confirmarPagamento('<%= c.id %>')">Confirmar pagamento</button>
+                <button onclick="activarCampanha('<%= c.id %>')">Activar</button>
+                <button onclick="expirarCampanha('<%= c.id %>')">Expirar</button>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </main>
+    </div>
+    <script src="/js/admin.js"></script>
+  </body>
+  </html>
+

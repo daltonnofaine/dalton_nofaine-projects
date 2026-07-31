@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Central de Notificacoes</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/cliente/central-notificacoes-cliente.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-cliente") %>
+
+    <main class="layout-notificacoes">
+      <section class="cabecalho-central">
+        <div>
+          <h1>Central de Notificacoes</h1>
+          <p>Acompanhe o feedback das suas requisicoes e converse com os prestadores em um unico local.</p>
+        </div>
+        <div class="resumo-notificacoes">
+          <div><strong><%= notificacoes.length %></strong><span>Total</span></div>
+          <div><strong><%= notificacoes.filter((n) => !n.lida).length %></strong><span>Novas</span></div>
+          <div><strong><%= pedidoActivo ? 1 : 0 %></strong><span>Em foco</span></div>
+        </div>
+      </section>
+
+      <section class="grid-central">
+        <article class="painel lista-notificacoes">
+          <div class="cabecalho-painel">Feedback das Requisicoes</div>
+          <div class="itens-notificacao">
+            <% if (!notificacoes.length) { %>
+              <div class="item-notificacao activo">
+                <div class="topo-item">
+                  <strong>Sem notificacoes</strong>
+                  <span class="estado pendente">Vazio</span>
+                </div>
+                <p>Assim que um prestador responder ou o sistema gerar um alerta, tudo aparecera aqui.</p>
+                <small>Agora</small>
+              </div>
+            <% } else { %>
+              <% notificacoes.forEach((n) => { %>
+                <% const activo = pedidoIdActivo && n.pedido_id === pedidoIdActivo; %>
+                <% const estadoPedido = n.pedidos ? n.pedidos.estado : "pendente"; %>
+                <% const nomePrestador = n.pedidos && n.pedidos.prestadores && n.pedidos.prestadores.utilizadores ? n.pedidos.prestadores.utilizadores.nome : "Sistema"; %>
+                <a href="/cliente/notificacoes?pedido=<%= n.pedido_id || '' %>" class="item-notificacao <%= activo ? 'activo' : '' %>">
+                  <div class="topo-item">
+                    <strong><%= n.pedido_id ? `RQ-${String(n.pedido_id).slice(0, 6)}` : 'Aviso' %> • <%= nomePrestador %></strong>
+                    <span class="estado <%= estadoPedido %>"><%= estadoPedido %></span>
+                  </div>
+                  <p><%= n.mensagem %></p>
+                  <small><%= formatarHora(n.criado_em) %></small>
+                </a>
+              <% }) %>
+            <% } %>
+          </div>
+        </article>
+
+        <article class="painel painel-interacao" id="conversa-activa">
+          <div class="cabecalho-painel">
+            <%= pedidoActivo ? `Interacao com Prestador - ${pedidoActivo.servicos ? pedidoActivo.servicos.titulo : 'Pedido'}` : 'Interacao com Prestador' %>
+          </div>
+
+          <% if (!pedidoActivo) { %>
+            <div class="detalhes-rapidos">
+              <span><strong>Estado:</strong> Nenhuma conversa aberta</span>
+            </div>
+            <div class="thread-mensagens">
+              <div class="mensagem prestador">
+                <strong>Sistema</strong>
+                <p>Seleccione uma notificacao para abrir os detalhes completos do pedido e a conversa.</p>
+                <small>Agora</small>
+              </div>
+            </div>
+          <% } else { %>
+            <div class="detalhes-rapidos">
+              <span><strong>Servico:</strong> <%= pedidoActivo.servicos ? pedidoActivo.servicos.titulo : 'Pedido' %></span>
+              <span><strong>Local:</strong> <%= pedidoActivo.local_servico || 'A combinar' %></span>
+              <span><strong>Estado:</strong> <%= pedidoActivo.estado %></span>
+            </div>
+
+            <div class="thread-mensagens" id="thread-msgs">
+              <% if (!mensagens.length) { %>
+                <p class="sem-msgs">Sem mensagens ainda.</p>
+              <% } else { %>
+                <% mensagens.forEach((m) => { %>
+                  <% const classeMensagem = m.remetente_id === pedidoActivo.cliente_id ? 'cliente' : 'prestador'; %>
+                  <div class="mensagem <%= classeMensagem %>">
+                    <strong><%= m.utilizadores ? m.utilizadores.nome : 'Utilizador' %></strong>
+                    <p><%= m.conteudo %></p>
+                    <small><%= formatarHora(m.enviado_em) %></small>
+                  </div>
+                <% }) %>
+              <% } %>
+            </div>
+
+            <div class="acoes-rapidas">
+              <button class="btn" type="button">Anexar foto</button>
+              <button class="btn" type="button">Pedir alteracao de horario</button>
+              <button class="btn-vermelho" type="button">Marcar como resolvido</button>
+            </div>
+
+            <% if (["pendente", "confirmado", "em_curso"].includes(pedidoActivo.estado)) { %>
+              <div class="responder-box">
+                <label>Responder ao prestador</label>
+                <textarea id="input-mensagem" placeholder="Escreva a sua mensagem..."></textarea>
+                <button class="btn-preenchido" id="btn-enviar-msg" onclick="enviarMensagem('<%= pedidoActivo.id %>')" type="button">Enviar</button>
+              </div>
+            <% } %>
+          <% } %>
+        </article>
+      </section>
+    </main>
+
+    <%- include("../partials/footer-simples") %>
+    <script src="/js/mensagens.js"></script>
+  </body>
+</html>

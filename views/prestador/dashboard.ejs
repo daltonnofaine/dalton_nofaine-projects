@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Dashboard do Prestador</title>
+  <link rel="stylesheet" href="/css/base/estilo.css">
+  <link rel="stylesheet" href="/css/prestador/dashboard.css">
+</head>
+
+<body>
+  <!-- Barra de navegacao -->
+  <%- include("../partials/navbar-dashboard", { sessao: sessao }) %>
+
+  <!-- Area principal do painel -->
+  <div class="layout-dashboard">
+
+    <!-- Menu lateral -->
+    <%- include("../partials/sidebar-prestador", { paginaActiva: paginaActiva }) %>
+
+    <!-- Conteudo principal -->
+    <div class="conteudo-dashboard">
+
+      <section class="secao-dashboard activa" id="secao-visao-geral">
+        <div class="cabecalho-dash">
+          <div>
+            <h2>Ola, <%= sessao.nome %></h2>
+            <p>Aqui esta o resumo da sua actividade</p>
+          </div>
+          <button class="btn-vermelho">+ Novo Servico</button>
+        </div>
+
+        <div class="grade-metricas">
+          <div class="cartao-metrica">
+            <div class="etiqueta">Pedidos</div>
+            <div class="valor"><%= metricas.totalPedidos %></div>
+            <div class="variacao">+<%= metricas.pedidosMes %> este mes</div>
+          </div>
+          <div class="cartao-metrica">
+            <div class="etiqueta">Receita (MZN)</div>
+            <div class="valor"><%= formatarPreco(metricas.totalReceita) %></div>
+            <div class="variacao">+<%= metricas.percentagemReceitaMes %>% este mes</div>
+          </div>
+          <div class="cartao-metrica">
+            <div class="etiqueta">Avaliacao</div>
+            <div class="valor"><%= metricas.mediaAvaliacao %></div>
+            <div class="variacao"><%= metricas.totalAvaliacoes %> avaliacoes</div>
+          </div>
+          <div class="cartao-metrica">
+            <div class="etiqueta">Visualizacoes</div>
+            <div class="valor"><%= metricas.totalVisualizacoes %></div>
+            <div class="variacao">+<%= metricas.percentagemVisualizacoesSemana %>% esta semana</div>
+          </div>
+        </div>
+
+        <div class="painel">
+          <div class="cabecalho-painel">
+            Pedidos Recentes
+            <a href="/prestador/pedidos">Ver todos</a>
+          </div>
+          <div class="area-grafico">[ Grafico de actividade - ultimos 7 dias ]</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Servico</th>
+                <th>Data</th>
+                <th>Estado</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Iterar sobre pedidos (exemplo) -->
+              <% if (metricas.pedidosRecentes && metricas.pedidosRecentes.length > 0) { %>
+                <% metricas.pedidosRecentes.forEach(pedido => { %>
+                  <tr>
+                    <td><strong><%= pedido.clienteNome %></strong></td>
+                    <td><%= pedido.servicoTitulo %></td>
+                    <td><%= formatarData(pedido.data) %></td>
+                    <td><span class="estado <%= pedido.estado.toLowerCase() %>"><%= pedido.estado %></span></td>
+                    <td><strong><%= formatarPreco(pedido.valor) %></strong></td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="5">Nenhum pedido recente.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- As outras sections para servicos, pedidos, avaliacoes, definicoes serao renderizadas condicionalmente por JS ou em paginas separadas -->
+      <!-- Por simplicidade, mantemos apenas o conteudo da visao geral por agora. -->
+      <!-- A estrutura original do HTML tem varias sections com id="secao-X",
+           e uma classe "activa" para mostrar a visao geral.
+           Para um EJS modular, cada section seria um template à parte ou renderizada via AJAX.
+           Para este dashboard, vamos focar na secção principal. -->
+
+    </div>
+
+  </div>
+
+  <%- include("../partials/footer-simples") %>
+</body>
+
+</html>

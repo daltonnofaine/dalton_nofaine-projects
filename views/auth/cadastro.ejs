@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serv-Link - Criar Conta</title>
+    <link rel="stylesheet" href="/css/base/estilo.css">
+    <link rel="stylesheet" href="/css/cadastro/cadastro.css">
+    <style>
+        .campos-prestador { display: none; }
+        .campos-prestador.visivel { display: block; }
+        .aba-tipo { cursor: pointer; padding: 10px 20px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px; display: inline-block; }
+        .aba-tipo.activa { background: var(--vermelho); color: white; border-color: var(--vermelho); }
+    </style>
+</head>
+<body>
+    <%- include("../partials/navbar-public") %>
+
+    <div class="pagina-cadastro">
+        <div class="bloco-esquerdo">
+            <h2>Junte-se ao Serv-Link</h2>
+            <p>Escolha o seu perfil e comece a aproveitar todas as vantagens da plataforma.</p>
+            <div class="lista-beneficios">
+                <div class="item">Conecte-se com profissionais verificados</div>
+                <div class="item">Ofereça os seus serviços para milhares de clientes</div>
+                <div class="item">Plataforma segura e fácil de usar</div>
+            </div>
+        </div>
+
+        <div class="bloco-formulario">
+            <h3>Criar Nova Conta</h3>
+            <div class="subtitulo">Já tem conta? <a href="/auth/login">Entrar</a></div>
+
+            <% if (erro) { %>
+                <div class="alerta-erro" style="background: #fff5f5; border-left: 4px solid var(--vermelho); padding: 12px; margin-bottom: 20px; color: var(--vermelho);">
+                    <%= erro %>
+                </div>
+            <% } %>
+
+            <div class="etiqueta-tipo">Deseja cadastrar-se como:</div>
+            <div class="abas-cadastro" style="margin-bottom: 20px;">
+                <div id="aba-cliente" class="aba-tipo activa" onclick="selecionarTipo('cliente')">Cliente</div>
+                <div id="aba-prestador" class="aba-tipo" onclick="selecionarTipo('prestador')">Prestador de Serviço</div>
+            </div>
+
+            <form method="post" action="/auth/cadastro" id="form-cadastro">
+                <input type="hidden" name="perfil" id="input-perfil" value="cliente">
+
+                <div class="dois-campos">
+                    <div class="campo">
+                        <label>Nome</label>
+                        <input type="text" name="nome" placeholder="Ex: João" required>
+                    </div>
+                    <div class="campo">
+                        <label>Apelido</label>
+                        <input type="text" name="apelido" placeholder="Ex: Silva" required>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label>E-mail</label>
+                    <input type="email" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="campo">
+                    <label>Telefone</label>
+                    <input type="tel" name="telefone" placeholder="Ex: +258 84 000 0000">
+                </div>
+
+                <!-- Campos específicos para Prestador -->
+                <div id="secao-prestador" class="campos-prestador">
+                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                    <div class="titulo-secao" style="font-weight: bold; margin-bottom: 15px;">Informações Profissionais</div>
+                    
+                    <div class="campo">
+                        <label>Categoria principal</label>
+                        <select name="categoriaId" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                            <option value="">Selecione uma categoria...</option>
+                            <option value="1">Canalizador</option>
+                            <option value="2">Electricista</option>
+                            <option value="3">Limpeza</option>
+                            <option value="4">Design Gráfico</option>
+                        </select>
+                    </div>
+
+                    <div class="dois-campos">
+                        <div class="campo">
+                            <label>Preço Médio (MZN)</label>
+                            <input type="number" name="preco" placeholder="Ex: 500">
+                        </div>
+                        <div class="campo">
+                            <label>Anos de Experiência</label>
+                            <input type="text" name="experiencia" placeholder="Ex: 2 anos">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dois-campos">
+                    <div class="campo">
+                        <label>Senha</label>
+                        <input type="password" name="password" placeholder="Mínimo 6 caracteres" required>
+                    </div>
+                    <div class="campo">
+                        <label>Confirmar Senha</label>
+                        <input type="password" name="confirmar_password" placeholder="Repita a senha" required>
+                    </div>
+                </div>
+
+                <div class="accoes-cadastro">
+                    <button class="btn-enviar" type="submit">Finalizar Cadastro</button>
+                </div>
+            </form>
+
+            <div class="nota-form">
+                Ao registar-se, concorda com os <a href="#">Termos de Uso</a> e <a href="#">Privacidade</a>.
+            </div>
+        </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+
+    <script>
+        function selecionarTipo(tipo) {
+            document.getElementById('input-perfil').value = tipo;
+            
+            document.getElementById('aba-cliente').classList.remove('activa');
+            document.getElementById('aba-prestador').classList.remove('activa');
+            
+            if (tipo === 'cliente') {
+                document.getElementById('aba-cliente').classList.add('activa');
+                document.getElementById('secao-prestador').classList.remove('visivel');
+            } else {
+                document.getElementById('aba-prestador').classList.add('activa');
+                document.getElementById('secao-prestador').classList.add('visivel');
+            }
+        }
+    </script>
+</body>
+</html>

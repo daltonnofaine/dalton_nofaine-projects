@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Administrador - Visao Geral</title>
+  <link rel="stylesheet" href="/css/base/estilo.css">
+  <link rel="stylesheet" href="/css/admin/admin-sistema.css">
+</head>
+
+<body>
+  <!-- Barra de navegacao -->
+  <%- include("../partials/navbar-admin", { sessao: sessao }) %>
+
+  <div class="layout-admin">
+    <!-- Menu lateral -->
+    <%- include("../partials/sidebar-admin", { paginaActiva: paginaActiva }) %>
+
+    <!-- Conteudo principal da pagina -->
+
+    <main class="conteudo-admin">
+      <section class="secao-admin activa">
+        <div class="cabecalho-admin">
+          <div>
+            <h1>Visao Geral da Plataforma</h1>
+            <p>Resumo operacional em tempo real para monitorar utilizadores, requisicoes e qualidade do servico.</p>
+          </div>
+          <button class="btn-vermelho" type="button">Novo Comunicado</button>
+        </div>
+
+        <div class="grade-metricas">
+          <article class="cartao-metrica">
+            <span class="etiqueta">Utilizadores Activos Hoje</span>
+            <strong class="valor"><%= metricas.utilizadoresActivosHoje %></strong>
+            <span class="variacao positivo">+<%= metricas.percentagemUtilizadoresVsOntem %>% vs ontem</span>
+          </article>
+          <article class="cartao-metrica">
+            <span class="etiqueta">Requisicoes Abertas</span>
+            <strong class="valor"><%= metricas.requisicoesAbertas %></strong>
+            <span class="variacao alerta"><%= metricas.atrasoResposta %> com atraso de resposta</span>
+          </article>
+          <article class="cartao-metrica">
+            <span class="etiqueta">Taxa de Conclusao</span>
+            <strong class="valor"><%= metricas.taxaConclusao %>%</strong>
+            <span class="variacao positivo">Meta mensal: 90%</span>
+          </article>
+          <article class="cartao-metrica">
+            <span class="etiqueta">Tempo Medio de Resposta</span>
+            <strong class="valor"><%= metricas.tempoMedioResposta %> min</strong>
+            <span class="variacao positivo">-<%= metricas.reducaoTempoRespostaSemana %> min esta semana</span>
+          </article>
+        </div>
+
+        <div class="grade-atalhos-admin">
+          <a href="/admin/prestadores" class="card-atalho-admin">
+            <h3>Gestao de Prestadores</h3>
+            <p>Validar documentos, rever risco e acompanhar aprovacoes pendentes.</p>
+            <span>Abrir modulo</span>
+          </a>
+          <a href="/admin/operacoes" class="card-atalho-admin">
+            <h3>Operacoes do Sistema</h3>
+            <p>Gerir categorias, denuncias, moderacao e suporte operacional.</p>
+            <span>Abrir modulo</span>
+          </a>
+          <a href="/admin/relatorios" class="card-atalho-admin">
+            <h3>Relatorios e Indicadores</h3>
+            <p>Visualizar desempenho, qualidade de atendimento e resultados mensais.</p>
+            <span>Abrir modulo</span>
+          </a>
+        </div>
+
+        <div class="painel">
+          <div class="cabecalho-painel">
+            Actividade Recente
+            <a href="/admin/relatorios">Ver historico</a>
+          </div>
+          <ul class="lista-actividades">
+            <!-- Iterar sobre actividades (exemplo) -->
+            <% if (metricas.actividadeRecente && metricas.actividadeRecente.length > 0) { %>
+                <% metricas.actividadeRecente.forEach(actividade => { %>
+                    <li><strong><%= actividade.hora %></strong> <%= actividade.descricao %></li>
+                <% }) %>
+            <% } else { %>
+                <li>Nenhuma atividade recente.</li>
+            <% } %>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <%- include("../partials/footer-simples") %>
+</body>
+
+</html>

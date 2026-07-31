@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuracoes Admin - Serv-Link</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/admin/admin-sistema.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-admin") %>
+    <div style="display:flex;min-height:calc(100vh - 60px);">
+      <%- include("../partials/sidebar-admin") %>
+      <main style="padding:20px;flex:1;">
+        <h1>Configuracoes</h1>
+        <div id="config-feedback"></div>
+        <% if (!configuracoes.length) { %>
+          <p>Sem configuracoes registadas.</p>
+        <% } else { %>
+          <ul>
+            <% configuracoes.forEach((c) => { %>
+              <li style="margin-bottom:16px;border:1px solid #ddd;padding:12px;">
+                <strong><%= c.chave %></strong>
+                <br />
+                <%= c.descricao || "" %>
+                <br />
+                <label>
+                  <input type="checkbox" <%= c.valor ? "checked" : "" %> onchange="toggleConfig('<%= c.chave %>', this.checked)" />
+                  Activo
+                </label>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </main>
+    </div>
+    <script src="/js/admin.js"></script>
+  </body>
+  </html>
+

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Dashboard - Pedidos</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/dashboard.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-prestador") %>
+
+    <div class="layout-dashboard">
+      <%- include("../partials/sidebar-prestador") %>
+
+      <div class="conteudo-dashboard">
+        <section class="secao-dashboard activa" id="secao-pedidos">
+          <div class="cabecalho-dash">
+            <div>
+              <h2>Requisicoes Recebidas</h2>
+              <p>Abra uma requisicao para consultar detalhes completos e conversar com o cliente.</p>
+            </div>
+          </div>
+
+          <div class="abas-requisicao" style="margin-bottom: 24px;">
+            <a href="/dashboard/pedidos" class="aba-item <%= !filtroEstado ? 'activa' : '' %>">Todos</a>
+            <a href="/dashboard/pedidos?estado=pendente" class="aba-item <%= filtroEstado === 'pendente' ? 'activa' : '' %>">Pendentes</a>
+            <a href="/dashboard/pedidos?estado=confirmado" class="aba-item <%= filtroEstado === 'confirmado' ? 'activa' : '' %>">Confirmados</a>
+            <a href="/dashboard/pedidos?estado=em_curso" class="aba-item <%= filtroEstado === 'em_curso' ? 'activa' : '' %>">Em curso</a>
+            <a href="/dashboard/pedidos?estado=concluido" class="aba-item <%= filtroEstado === 'concluido' ? 'activa' : '' %>">Concluidos</a>
+          </div>
+
+          <div class="lista-fichas-pedido">
+            <% if (!pedidos.length) { %>
+              <article class="ficha-pedido">
+                <div class="topo-ficha">
+                  <div>
+                    <h4>Sem pedidos no momento</h4>
+                    <p>Nenhuma requisicao encontrada para este filtro.</p>
+                  </div>
+                  <span class="estado pendente">Vazio</span>
+                </div>
+              </article>
+            <% } else { %>
+              <% pedidos.forEach((p) => { %>
+                <article class="ficha-pedido">
+                  <div class="topo-ficha">
+                    <div>
+                      <h4>Requisicao #RQ-<%= String(p.id).slice(0, 6) %> - <%= p.servicos ? p.servicos.titulo : 'Pedido' %></h4>
+                      <p><strong>Cliente:</strong> <%= p.clientes && p.clientes.utilizadores ? p.clientes.utilizadores.nome : (p.nome_cliente || 'N/A') %> | <strong>Data:</strong> <%= formatarData(p.criado_em) %> | <strong>Valor:</strong> <%= p.valor || 0 %> MZN</p>
+                    </div>
+                    <span class="estado <%= p.estado %>"><%= p.estado %></span>
+                  </div>
+                  <div class="detalhes-ficha">
+                    <p><strong>Endereco:</strong> <%= p.local_servico || 'A combinar' %></p>
+                    <p><strong>Descricao:</strong> <%= p.descricao || 'Sem descricao adicional.' %></p>
+                  </div>
+                  <div class="mensagens-ficha">
+                    <h5>Resumo rapido</h5>
+                    <div class="mensagem-item">
+                      <strong>Urgencia:</strong>
+                      <p><%= p.urgencia || 'Normal' %></p>
+                    </div>
+                  </div>
+                  <div class="accoes-ficha">
+                    <a href="/dashboard/pedidos/<%= p.id %>" class="btn-preenchido">Abrir Requisicao</a>
+                    <a href="/dashboard/pedidos/<%= p.id %>#aba-conversa" class="btn">Abrir Conversa</a>
+                  </div>
+                </article>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+  </body>
+</html>

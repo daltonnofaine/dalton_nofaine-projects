@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Administrador - Prestadores</title>
+  <link rel="stylesheet" href="/css/base/estilo.css">
+  <link rel="stylesheet" href="/css/admin/admin-sistema.css">
+</head>
+<body>
+  <%- include("../partials/navbar-admin") %>
+  <div class="layout-admin">
+    <%- include("../partials/sidebar-admin") %>
+    <main class="conteudo-admin">
+      <section class="secao-admin activa">
+        <div class="cabecalho-admin">
+          <div>
+            <h2>Validacao e Verificacao de Prestadores</h2>
+            <p>Controlo de qualidade dos profissionais ativos na plataforma.</p>
+          </div>
+          <button class="btn-preenchido" type="button">Exportar Lista</button>
+        </div>
+
+        <div id="admin-feedback"></div>
+
+        <div class="painel">
+          <div class="cabecalho-painel">Fila de Analise</div>
+          <div class="tabela-responsiva">
+            <table>
+              <thead>
+                <tr>
+                  <th>Prestador</th>
+                  <th>Categoria</th>
+                  <th>Estado</th>
+                  <th>Nivel de Risco</th>
+                  <th>Accoes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% prestadores.forEach((p) => { %>
+                  <tr id="prestador-<%= p.id %>">
+                    <td><strong><%= p.utilizadores?.nome || "Prestador" %></strong><span class="meta">Conta criada em <%= formatarData(p.criado_em) %></span></td>
+                    <td><%= p.especialidade || "Sem categoria" %></td>
+                    <td><span class="estado <%= p.estado_verificacao %>"><%= p.estado_verificacao %></span></td>
+                    <td><span class="estado medio"><%= p.nota_risco || "Sem nota" %></span></td>
+                    <td class="accoes-celula">
+                      <input id="nota-<%= p.id %>" value="<%= p.nota_risco || '' %>" placeholder="Nota">
+                      <button type="button" class="btn-mini btn-aprovar" onclick="validarPrestador('<%= p.id %>', 'aprovado')">Aprovar</button>
+                      <button type="button" class="btn-mini btn-neutro" onclick="validarPrestador('<%= p.id %>', 'pendente')">Solicitar Extras</button>
+                      <button type="button" class="btn-mini btn-rejeitar" onclick="validarPrestador('<%= p.id %>', 'rejeitado')">Rejeitar</button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <%- include("../partials/footer-simples") %>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<nav class="nav-logged nav-explorar-top">
+  <div class="logo">
+    <a href="/" class="logo-link"><span>Serv-</span>Link</a>
+  </div>
+  <div class="nav-links nav-center" style="gap: 40px;">
+    <a href="/" class="nav-link-destaque">Inicio</a>
+    <a href="/servicos" class="nav-link-secundario">Explorar Servicos</a>
+    <a href="/cliente/notificacoes" class="nav-link-secundario">Notificacoes</a>
+  </div>
+  <div class="nav-links nav-user-actions">
+    <a href="/cliente/perfil" class="user-box" aria-label="Abrir perfil do cliente">
+      <div class="avatar">
+        <% if (sessao && sessao.avatarUrl) { %>
+          <img src="<%= sessao.avatarUrl %>" alt="Foto do cliente" />
+        <% } else { %>
+          <img src="/img/shared/avatares/iconi_perfil.svg" alt="Foto do cliente" />
+        <% } %>
+      </div>
+      <span class="nome-user"><%= sessao ? sessao.nome.split(" ")[0] : "Cliente" %></span>
+    </a>
+    <a href="/auth/logout" class="btn-sair">Sair</a>
+  </div>
+</nav>

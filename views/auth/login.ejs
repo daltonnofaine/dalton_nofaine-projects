@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serv-Link - Entrar na Plataforma</title>
+    <link rel="stylesheet" href="/css/base/estilo.css">
+    <link rel="stylesheet" href="/css/login/login.css">
+    <style>
+        /* Estilos básicos para garantir que o erro aparece */
+        .alerta-erro {
+            background: #fff5f5;
+            border-left: 4px solid var(--vermelho);
+            padding: 12px;
+            margin-bottom: 20px;
+            color: var(--vermelho);
+            display: none; /* Escondido por defeito */
+        }
+    </style>
+</head>
+<body>
+    <%- include("../partials/navbar-public") %>
+
+    <div class="pagina-login">
+        <div class="bloco-formulario">
+            <h3>Acesso à sua Conta</h3>
+            <div class="subtitulo">Novo por aqui? <a href="/auth/cadastro">Criar Conta</a></div>
+
+            <% if (erro) { %>
+                <div class="alerta-erro" style="display: block;">
+                    <%= erro %>
+                </div>
+            <% } %>
+
+            <form method="post" action="/auth/login" id="form-login">
+                <div class="campo">
+                    <label>E-mail</label>
+                    <input type="email" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="campo">
+                    <label>Senha</label>
+                    <input type="password" name="password" placeholder="Sua senha" required>
+                </div>
+
+                <div class="accoes-login">
+                    <button class="btn-enviar" type="submit">Entrar na Plataforma</button>
+                </div>
+            </form>
+
+            <div class="nota-login">
+                Esqueceu a senha? <a href="/auth/recuperar-senha">Recuperar Senha</a>
+            </div>
+        </div>
+        <div class="bloco-direito">
+            <h2>Ainda não tem conta?</h2>
+            <p>Junte-se ao Serv-Link hoje mesmo e descubra um mundo de serviços.</p>
+            <a href="/auth/cadastro" class="btn-secundario">Criar Conta Grátis</a>
+        </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+</body>
+</html>

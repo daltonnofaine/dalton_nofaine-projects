@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Inicio do Cliente</title>
+  <link rel="stylesheet" href="/css/home/index.css">
+  <link rel="stylesheet" href="/css/base/estilo.css">
+</head>
+
+<body>
+  <!-- Pagina inicial do cliente -->
+
+  <!-- Menu principal do cliente autenticado -->
+  <%- include("../partials/navbar-cliente", { sessao: sessao }) %>
+
+  <!-- Conteudo principal da home do cliente -->
+  <main>
+    <!-- Destaque principal com pesquisa rapida -->
+    <section class="hero">
+      <h1>Encontre o Servico <span>certo</span><br>de Forma Rapida, Para o que voce Precisa</h1>
+      <p>Conectamos voce com os melhores prestadores de servicos da sua cidade.</p>
+
+      <div class="barra-pesquisa">
+        <input type="text" placeholder="Que servico voce precisa? Ex: Canalizador, Electricista...">
+        <button>Buscar</button>
+      </div>
+
+      <div class="numeros">
+        <div>
+          <div class="numero">512+</div>
+          <div class="legenda">Prestadores activos</div>
+        </div>
+        <div>
+          <div class="numero">314+</div>
+          <div class="legenda">Servicos realizados</div>
+        </div>
+        <div>
+          <div class="numero">98%</div>
+          <div class="legenda">Satisfacao</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorias com mais procura -->
+    <section class="destaques-categorias">
+      <div class="cabecalho-sec">
+        <h2>Categorias de Servicos em <span>Destaque</span></h2>
+        <a href="pages/servicos/explorar.html">Ver Servicos</a>
+      </div>
+      <div class="grade-destaques">
+        <article class="card-destaque">
+          <div class="imagem-destaque">
+            <img src="/img/servicos/categorias/canalizacao.png" alt="Canalizacao">
+          </div>
+          <h4>Canalizacao</h4>
+          <p>Categoria com maior volume de pedidos nas ultimas semanas.</p>
+          <div class="meta-destaque">142 pedidos no mes</div>
+        </article>
+        <article class="card-destaque">
+          <div class="imagem-destaque">
+            <img src="/img/servicos/categorias/Eletrecista.svg" alt="Electricidade">
+          </div>
+          <h4>Electricidade</h4>
+          <p>Alta procura para instalacoes residenciais e manutencao urgente.</p>
+          <div class="meta-destaque">118 pedidos no mes</div>
+        </article>
+        <article class="card-destaque">
+          <div class="imagem-destaque">
+            <img src="/img/servicos/categorias/Limpeza.svg" alt="Limpeza Profunda">
+          </div>
+          <h4>Limpeza Profunda</h4>
+          <p>Servico recorrente para casas, escritorios e periodos pos-obra.</p>
+          <div class="meta-destaque">97 pedidos no mes</div>
+        </article>
+        <article class="card-destaque">
+          <div class="imagem-destaque">
+            <img src="/img/servicos/categorias/design-grafico-icone.svg" alt="Design Grafico">
+          </div>
+          <h4>Design Grafico</h4>
+          <p>Procura crescente para identidades visuais e criacao de conteudo.</p>
+          <div class="meta-destaque">86 pedidos no mes</div>
+        </article>
+      </div>
+    </section>
+
+    <!--os passos de uso da plataforma -->
+    <section id="como_funciona" class="como-funciona">
+      <h2>Como <span>funciona</span></h2>
+      <div class="passos">
+        <div class="passo">
+          <div class="numero-passo">Passo 01</div>
+          <h4>Pesquise</h4>
+          <p>Procure o tipo de servico que precisa usando a barra de pesquisa.</p>
+        </div>
+        <div class="passo">
+          <div class="numero-passo">Passo 02</div>
+          <h4>Escolha</h4>
+          <p>Compare perfis, avaliacoes e precos dos prestadores disponiveis.</p>
+        </div>
+        <div class="passo">
+          <div class="numero-passo">Passo 03</div>
+          <h4>Contacte</h4>
+          <p>Entre em contacto directo com o prestador e combinem os detalhes.</p>
+        </div>
+        <div class="passo">
+          <div class="numero-passo">Passo 04</div>
+          <h4>Avalie</h4>
+          <p>Apos o servico, deixe a sua avaliacao e ajude a comunidade.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prestadores em destaque para o cliente -->
+    <section id="prestadores_sec" class="prestadores-verificados">
+      <div class="cabecalho-sec">
+        <h2>Prestadores <span>verificados</span></h2>
+        <a href="pages/servicos/explorar.html">Ver todos</a>
+      </div>
+      <div class="lista-prestadores">
+        <div class="card-prestador">
+          <div class="avatar"><img src="/img/shared/avatares/iconi_perfil.svg" alt="Avatar do prestador"></div>
+          <div>
+            <h4>Dalton Nofaine</h4>
+            <div class="especialidade">Desenvolvedor Web</div>
+            <div class="verificado">Verificado</div>
+          </div>
+        </div>
+        <div class="card-prestador">
+          <div class="avatar"><img src="/img/shared/avatares/iconi_perfil.svg" alt="Avatar do prestador"></div>
+          <div>
+            <h4>Fatima Sitoe</h4>
+            <div class="especialidade">Electricista</div>
+            <div class="verificado">Verificado</div>
+          </div>
+        </div>
+        <div class="card-prestador">
+          <div class="avatar"><img src="/img/shared/avatares/iconi_perfil.svg" alt="Avatar do prestador"></div>
+          <div>
+            <h4>Pedro Bila</h4>
+            <div class="especialidade">Designer Grafico</div>
+            <div class="verificado">Verificado</div>
+          </div>
+        </div>
+        <div class="card-prestador">
+          <div class="avatar"><img src="/img/shared/avatares/iconi_perfil.svg" alt="Avatar do prestador"></div>
+          <div>
+            <h4>Ana Tembe</h4>
+            <div class="especialidade">Jardinagem</div>
+            <div class="verificado">Verificado</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodape com links e contacto -->
+  <%- include("../partials/footer-completo") %>
+</body>
+</html>

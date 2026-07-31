@@ -1,0 +1,261 @@
+/* Regras basicas da pagina */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Cores usadas no projecto */
+:root {
+  --preto: #1A1A2E;
+  --vermelho: #E84855;
+  --cinza: #9B9B9B;
+  --borda: #C8C4BC;
+  --fundo: #F5F3EE;
+  --branco: #FFFFFF;
+}
+
+/* Estilo geral do corpo da pagina */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: var(--preto);
+  background: var(--branco);
+  padding-top: 60px;
+}
+
+/* Barra principal do topo */
+nav {
+  background: var(--branco);
+  border-bottom: 2px solid var(--preto);
+  padding: 0 40px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav .logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+nav .logo span {
+  color: var(--vermelho);
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav .nav-links a {
+  text-decoration: none;
+  color:var(--vermelho);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Grupo de links da direita */
+.nav-links-Dashboard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links-Dashboard .link-nav {
+  text-decoration: none;
+  color: var(--vermelho);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Bloco com foto e nome do utilizador */
+nav .user-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Foto do utilizador */
+nav .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--vermelho);
+  
+}
+
+nav .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+}
+
+/* Nome do utilizador */
+nav .nome-user {
+  font-size: 12px;
+  color: var(--preto);
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+/* Botao para sair */
+nav .btn-sair {
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--vermelho);
+  color: var(--vermelho);
+  transition: 0.2s;
+  font-weight: bold;
+}
+
+nav .btn-sair:hover {
+  background: var(--vermelho);
+  color: white;
+}
+
+/* Estilos dos botoes */
+.btn {
+  padding: 8px 18px;
+  border: 2px solid var(--preto);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  color: var(--preto);
+  display: inline-block;
+}
+
+.btn-preenchido {
+  background: var(--preto);
+  color: var(--branco);
+  padding: 8px 18px;
+  border: 2px solid var(--preto);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-vermelho {
+  background: var(--vermelho);
+  color: var(--branco);
+  padding: 8px 18px;
+  border: 2px solid var(--vermelho);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Rodape do site */
+footer {
+  background: var(--preto);
+  color: var(--branco);
+  padding: 40px;
+  margin-top: 60px;
+}
+
+footer .footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+footer h4 {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 14px;
+}
+
+footer a,
+footer p {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 2;
+  text-decoration: none;
+}
+
+footer .footer-base {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 16px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+}
+
+/* Campos dos formularios */
+.campo {
+  margin-bottom: 14px;
+}
+
+.campo label {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 2px solid var(--borda);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  outline: none;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-color: var(--preto);
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.dois-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.btn-enviar {
+  width: 100%;
+  padding: 13px;
+  background: var(--preto);
+  color: var(--branco);
+  border: none;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 6px;
+}

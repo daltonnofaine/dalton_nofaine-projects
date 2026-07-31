@@ -1,0 +1,245 @@
+/* Estilos da pagina de notificacoes */
+
+/* Divide a pagina entre lista e detalhes */
+.layout-notificacoes {
+  padding: 28px;
+  background: var(--fundo);
+  min-height: calc(100vh - 60px);
+}
+
+.cabecalho-central {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.cabecalho-central h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.cabecalho-central p {
+  color: var(--cinza);
+  font-size: 13px;
+}
+
+.resumo-notificacoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.resumo-notificacoes div {
+  background: #d4deef;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 130px;
+}
+
+.resumo-notificacoes strong {
+  display: block;
+  font-size: 18px;
+}
+
+.resumo-notificacoes span {
+  font-size: 13px;
+  color: var(--cinza);
+}
+
+.grid-central {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr;
+  gap: 16px;
+}
+
+.painel {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+}
+
+.cabecalho-painel {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--borda);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.itens-notificacao {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-notificacao {
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 10px;
+  background: #e3eaf6;
+}
+
+.item-notificacao.activo {
+  border-color: var(--preto);
+  background: #d5e0f0;
+}
+
+.topo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.item-notificacao p {
+  font-size: 13px;
+  color: #364256;
+  line-height: 1.55;
+  margin-bottom: 6px;
+}
+
+.item-notificacao small {
+  font-size: 13px;
+  color: var(--cinza);
+}
+
+.estado {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 999px;
+}
+
+.estado.confirmado {
+  background: #d4edda;
+  color: #155724;
+}
+
+.estado.pendente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.estado.concluido {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.painel-interacao {
+  display: flex;
+  flex-direction: column;
+}
+
+.detalhes-rapidos {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #2f3a4d;
+}
+
+.thread-mensagens {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mensagem {
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 10px;
+  background: #e6edf8;
+}
+
+.mensagem.prestador {
+  border-left: 3px solid var(--vermelho);
+}
+
+.mensagem.cliente {
+  background: #d8e4f5;
+}
+
+.mensagem strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.mensagem p {
+  font-size: 13px;
+  color: #324055;
+  margin-bottom: 4px;
+}
+
+.mensagem small {
+  font-size: 13px;
+  color: var(--cinza);
+}
+
+.acoes-rapidas {
+  padding: 0 16px 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.responder-box {
+  border-top: 1px solid var(--borda);
+  padding: 12px 16px 16px;
+}
+
+.responder-box label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.responder-box textarea {
+  width: 100%;
+  min-height: 88px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  background: #f0f5fc;
+  margin-bottom: 8px;
+}
+
+.nav-links .link-nav.activo {
+  color: var(--vermelho);
+}
+
+@media (max-width: 980px) {
+  .grid-central {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .layout-notificacoes {
+    padding: 18px;
+  }
+
+  .cabecalho-central {
+    flex-direction: column;
+  }
+}
+

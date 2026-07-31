@@ -1,0 +1,9 @@
+<aside class="sidebar-admin">
+  <div class="logo-sidebar">Painel Administrador</div>
+  <a href="/admin" class="item-menu <%= paginaActiva === 'sistema' ? 'activo' : '' %>">Visao Geral</a>
+  <a href="/admin/prestadores" class="item-menu <%= paginaActiva === 'prestadores' ? 'activo' : '' %>">Prestadores</a>
+  <a href="/admin/operacoes" class="item-menu <%= paginaActiva === 'operacoes' ? 'activo' : '' %>">Operacoes</a>
+  <a href="/admin/relatorios" class="item-menu <%= paginaActiva === 'relatorios' ? 'activo' : '' %>">Relatorios</a>
+  <a href="/admin/configuracoes" class="item-menu separador <%= paginaActiva === 'configuracoes' ? 'activo' : '' %>">Configuracoes</a>
+  <a href="/auth/logout" class="item-menu link-menu">Sair</a>
+</aside>

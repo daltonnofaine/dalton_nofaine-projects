@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ServeNow — Documentacao do Codigo</title>
+  <style>
+    /* Reset e base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #1A1A2E;
+      background: #F5F3EE;
+    }
+
+    /* Cabecalho principal */
+    .cabecalho-doc {
+      background: #1A1A2E;
+      color: white;
+      padding: 48px 60px;
+    }
+
+    .cabecalho-doc h1 {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .cabecalho-doc h1 span {
+      color: #E84855;
+    }
+
+    .cabecalho-doc p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    /* Lista de ficheiros no cabecalho */
+    .lista-ficheiros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ficheiro-tag {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .ficheiro-tag.html {
+      border-color: #E84855;
+      color: #E84855;
+    }
+
+    .ficheiro-tag.css {
+      border-color: #4A9EE8;
+      color: #4A9EE8;
+    }
+
+    /* Navegacao lateral + conteudo */
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    /* MENU LATERAL */
+    .menu-lateral {
+      background: white;
+      border-right: 2px solid #C8C4BC;
+      padding: 24px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .menu-lateral h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #9B9B9B;
+      padding: 0 20px;
+      margin-bottom: 12px;
+      margin-top: 20px;
+    }
+
+    .menu-lateral h3:first-child {
+      margin-top: 0;
+    }
+
+    .menu-lateral a {
+      display: block;
+      padding: 7px 20px;
+      font-size: 13px;
+      color: #1A1A2E;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+    }
+
+    .menu-lateral a:hover {
+      background: #F5F3EE;
+      border-left-color: #E84855;
+    }
+
+    .menu-lateral a.css-link {
+      color: #4A9EE8;
+    }
+
+    /* CONTEUDO PRINCIPAL */
+    .conteudo {
+      padding: 40px 60px;
+      max-width: 900px;
+    }
+
+    /* SECÇÃO DE PÁGINA */
+    .secao-pagina {
+      margin-bottom: 60px;
+      padding-bottom: 60px;
+      border-bottom: 2px solid #C8C4BC;
+    }
+
+    .secao-pagina:last-child {
+      border-bottom: none;
+    }
+
+    /* Titulo da secao */
+    .titulo-secao {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .titulo-secao h2 {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .badge-tipo {
+      font-size: 10px;
+      font-weight: bold;
+      padding: 3px 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .badge-tipo.html {
+      background: #FDECEA;
+      color: #E84855;
+      border: 1px solid #E84855;
+    }
+
+    .badge-tipo.css {
+      background: #EAF2FD;
+      color: #4A9EE8;
+      border: 1px solid #4A9EE8;
+    }
+
+    .subtitulo-secao {
+      font-size: 13px;
+      color: #9B9B9B;
+      margin-bottom: 28px;
+    }
+
+    /* BLOCO DE EXPLICAÇÃO */
+    .bloco {
+      background: white;
+      border: 2px solid #C8C4BC;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .bloco-titulo {
+      background: #1A1A2E;
+      color: white;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bloco-titulo .numero {
+      background: #E84855;
+      color: white;
+      font-size: 10px;
+      padding: 2px 8px;
+      font-weight: bold;
+    }
+
+    .bloco-desc {
+      padding: 14px 18px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #555;
+      border-bottom: 1px solid #C8C4BC;
+    }
+
+    /* Tabela de linhas de codigo */
+    .tabela-codigo {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .tabela-codigo tr:nth-child(even) {
+      background: #F5F3EE;
+    }
+
+    .tabela-codigo td {
+      padding: 9px 18px;
+      font-size: 13px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .tabela-codigo td:first-child {
+      width: 40%;
+      font-family: monospace;
+      font-size: 12px;
+      background: #1A1A2E;
+      color: #A8D8A8;
+      white-space: nowrap;
+      border-right: 2px solid #C8C4BC;
+    }
+
+    .tabela-codigo tr:nth-child(even) td:first-child {
+      background: #252545;
+    }
+
+    .tabela-codigo td:last-child {
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Nota de destaque */
+    .nota {
+      background: #FFF8E1;
+      border-left: 4px solid #F4A100;
+      padding: 10px 16px;
+      font-size: 12px;
+      color: #7A5800;
+      margin: 12px 18px 14px;
+      line-height: 1.6;
+    }
+
+    /* Separador de sub-titulo dentro de secao */
+    .sub-titulo {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 32px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #C8C4BC;
+      color: #1A1A2E;
+    }
+
+    /* Caixa de resumo da pagina */
+    .resumo-pagina {
+      background: #1A1A2E;
+      color: white;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 32px;
+    }
+
+
+    .resumo-item .label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 4px;
+    }
+
+    .resumo-item .valor {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CABEÇALHO -->
+  <div class="cabecalho-doc">
+    <h1>ServeNow — <span>Documentacao do Codigo</span></h1>
+    <p>Explicacao detalhada de cada bloco e linha de codigo do projecto</p>
+    <div class="lista-ficheiros">
+      <span class="ficheiro-tag html">index.html</span>
+      <span class="ficheiro-tag css">index.css</span>
+      <span class="ficheiro-tag html">cadastro.html</span>
+      <span class="ficheiro-tag css">cadastro.css</span>
+      <span class="ficheiro-tag html">explorar.html</span>
+      <span class="ficheiro-tag css">explorar.css</span>
+      <span class="ficheiro-tag html">detalhe.html</span>
+      <span class="ficheiro-tag css">detalhe.css</span>
+      <span class="ficheiro-tag html">dashboard.html</span>
+      <span class="ficheiro-tag css">dashboard.css</span>
+      <span class="ficheiro-tag css">estilo.css</span>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- MENU LATERAL -->
+    <nav class="menu-lateral">
+      <h3>Estilos Globais</h3>
+      <a href="#estilo-css">estilo.css</a>
+
+      <h3>Home</h3>
+      <a href="#index-html">index.html</a>
+      <a href="#index-css" class="css-link">index.css</a>
+
+      <h3>Cadastro</h3>
+      <a href="#cadastro-html">cadastro.html</a>
+      <a href="#cadastro-css" class="css-link">cadastro.css</a>
+
+      <h3>Explorar</h3>
+      <a href="#explorar-html">explorar.html</a>
+      <a href="#explorar-css" class="css-link">explorar.css</a>
+
+      <h3>Detalhe</h3>
+      <a href="#detalhe-html">detalhe.html</a>
+      <a href="#detalhe-css" class="css-link">detalhe.css</a>
+
+      <h3>Dashboard</h3>
+      <a href="#dashboard-html">dashboard.html</a>
+      <a href="#dashboard-css" class="css-link">dashboard.css</a>
+    </nav>
+
+
+    <!-- CONTEUDO -->
+    <div class="conteudo">
+
+
+      <!-- ============================================================ -->
+      <!-- ESTILO.CSS -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="estilo-css">
+        <div class="titulo-secao">
+          <h2>estilo.css</h2>
+          <span class="badge-tipo css">CSS Global</span>
+        </div>
+        <div class="subtitulo-secao">Ficheiro de estilos partilhado por todas as paginas. Contem o reset, as variaveis
+          de cor, a navegacao, os botoes, o rodape e os campos de formulario.</div>
+
+        <div class="resumo-pagina">
+          <div class="resumo-item">
+            <div class="label">Tipo</div>
+            <div class="valor">CSS Partilhado</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Usado em</div>
+            <div class="valor">Todas as paginas</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Blocos</div>
+            <div class="valor">6 blocos</div>
+          </div>
+        </div>
+
+        <!-- BLOCO 1 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Reset Basico <span class="numero">1</span></div>
+          <div class="bloco-desc">Remove o espaco padrao que os browsers colocam automaticamente em todos os elementos.
+            Garante que a pagina apareca igual em todos os browsers.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>* { margin: 0; padding: 0; }</td>
+              <td>O asterisco (*) selecciona TODOS os elementos da pagina. Remove o espaco exterior (margin) e o espaco
+                interior (padding) de tudo.</td>
+            </tr>
+            <tr>
+              <td>box-sizing: border-box;</td>
+              <td>Faz com que o tamanho de um elemento inclua a sua borda e padding. Facilita o calculo de larguras.
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 2 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Variaveis de Cor <span class="numero">2</span></div>
+          <div class="bloco-desc">Define as cores principais do projecto num unico lugar. Ao mudar o valor aqui, a cor
+            actualiza em toda a pagina automaticamente.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>:root { }</td>
+              <td>Selecciona o elemento raiz do documento (o HTML). E onde se declaram as variaveis CSS.</td>
+            </tr>
+            <tr>
+              <td>--preto: #1A1A2E;</td>
+              <td>Cria a variavel chamada "preto" com um azul-escuro. Para usar: var(--preto)</td>
+            </tr>
+            <tr>
+              <td>--vermelho: #E84855;</td>
+              <td>Cor de destaque usada em botoes, etiquetas e elementos principais.</td>
+            </tr>
+            <tr>
+              <td>--cinza: #9B9B9B;</td>
+              <td>Cinza medio para textos secundarios, como descricoes e legendas.</td>
+            </tr>
+            <tr>
+              <td>--borda: #C8C4BC;</td>
+              <td>Cor usada nas bordas dos elementos, como linhas e contornos de campos.</td>
+            </tr>
+            <tr>
+              <td>--fundo: #F5F3EE;</td>
+              <td>Cor de fundo suave usada em seccoes alternadas e campos de formulario.</td>
+            </tr>
+            <tr>
+              <td>--branco: #FFFFFF;</td>
+              <td>Branco puro para fundos de cards e areas principais.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 3 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Corpo da Pagina <span class="numero">3</span></div>
+          <div class="bloco-desc">Define o aspecto visual base de todo o texto e fundo da pagina.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>font-family: Arial, sans-serif;</td>
+              <td>Define a fonte principal. Arial e a primeira opcao; se nao existir no dispositivo, usa qualquer fonte
+                sem serifa.</td>
+            </tr>
+            <tr>
+              <td>font-size: 14px;</td>
+              <td>Tamanho base do texto em toda a pagina. Os outros tamanhos sao definidos em relacao a este.</td>
+            </tr>
+            <tr>
+              <td>color: #1A1A2E;</td>
+              <td>Cor padrao do texto (azul muito escuro, quase preto).</td>
+            </tr>
+            <tr>
+              <td>background: #FFFFFF;</td>
+              <td>Fundo branco para toda a pagina.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 4 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 4 — Navegacao (nav) <span class="numero">4</span></div>
+          <div class="bloco-desc">Estilos da barra de navegacao no topo. Aparece em todas as paginas do site.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>border-bottom: 2px solid var(--preto);</td>
+              <td>Linha de separacao por baixo da nav com 2 pixeis de espessura, usando a variavel --preto.</td>
+            </tr>
+            <tr>
+              <td>padding: 0 40px;</td>
+              <td>Espaco interior horizontal de 40 pixeis (esquerda e direita). Vertical fica a zero.</td>
+            </tr>
+            <tr>
+              <td>height: 60px;</td>
+              <td>Altura fixa da barra de navegacao: 60 pixeis.</td>
+            </tr>
+            <tr>
+              <td>display: flex;</td>
+              <td>Activa o sistema Flexbox, que permite alinhar os filhos em linha.</td>
+            </tr>
+            <tr>
+              <td>align-items: center;</td>
+              <td>Alinha os elementos filhos ao centro verticalmente dentro dos 60px de altura.</td>
+            </tr>
+            <tr>
+              <td>justify-content: space-between;</td>
+              <td>Coloca o logo do lado esquerdo e os links do lado direito, com espaco maximo entre eles.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 5 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 5 — Botoes <span class="numero">5</span></div>
+          <div class="bloco-desc">Tres tipos de botao reutilizaveis em todo o site: contorno, preenchido e vermelho.
+          </div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.btn</td>
+              <td>Botao com contorno (borda preta, fundo transparente). Usado para accoes secundarias.</td>
+            </tr>
+            <tr>
+              <td>.btn-preenchido</td>
+              <td>Botao preenchido a preto com texto branco. Usado para accoes principais.</td>
+            </tr>
+            <tr>
+              <td>.btn-vermelho</td>
+              <td>Botao vermelho. Usado para accoes de destaque maximo (ex: "Enviar Pedido").</td>
+            </tr>
+            <tr>
+              <td>cursor: pointer;</td>
+              <td>Muda o cursor do rato para uma mao quando passa por cima, indicando que e clicavel.</td>
+            </tr>
+            <tr>
+              <td>display: inline-block;</td>
+              <td>Permite que a tag &lt;a&gt; se comporte como botao, aceitando padding e dimensoes.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 6 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 6 — Rodape e Campos de Formulario <span class="numero">6</span></div>
+          <div class="bloco-desc">Estilos do rodape escuro no fundo de cada pagina, e dos campos de
+            texto/select/textarea usados nos formularios.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>footer { background: var(--preto); }</td>
+              <td>Fundo escuro para o rodape, usando a variavel de cor.</td>
+            </tr>
+            <tr>
+              <td>.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; }</td>
+              <td>Divide o rodape em 4 colunas: a primeira tem o dobro da largura das restantes.</td>
+            </tr>
+            <tr>
+              <td>.campo label { text-transform: uppercase; }</td>
+              <td>Converte o texto do label para maiusculas automaticamente via CSS.</td>
+            </tr>
+            <tr>
+              <td>border: 2px solid var(--borda);</td>
+              <td>Borda cinza nos campos de formulario. Fica preta quando o campo esta activo (focus).</td>
+            </tr>
+            <tr>
+              <td>outline: none;</td>
+              <td>Remove o contorno azul que os browsers colocam por padrao nos campos activos.</td>
+            </tr>
+            <tr>
+              <td>resize: vertical;</td>
+              <td>Permite ao utilizador redimensionar o textarea apenas na vertical.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- INDEX.HTML -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="index-html">
+        <div class="titulo-secao">
+          <h2>index.html</h2>
+          <span class="badge-tipo html">HTML</span>
+        </div>
+        <div class="subtitulo-secao">Pagina principal do site (Home). Apresenta o hero com pesquisa, a seccao "Como
+          Funciona" e os prestadores verificados.</div>
+
+        <div class="resumo-pagina">
+          <div class="resumo-item">
+            <div class="label">Pagina</div>
+            <div class="valor">Home</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">CSS Ligado</div>
+            <div class="valor">estilo.css + index.css</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Blocos HTML</div>
+            <div class="valor">4 blocos</div>
+          </div>
+        </div>
+
+        <!-- BLOCO 1 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Cabecalho do documento (&lt;head&gt;) <span class="numero">1</span></div>
+          <div class="bloco-desc">A tag &lt;head&gt; nao e visivel no ecra. Contem informacoes sobre a pagina e os links
+            para os ficheiros CSS.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>&lt;meta charset="UTF-8"&gt;</td>
+              <td>Define a codificacao de caracteres. Necessario para mostrar acentos e caracteres especiais
+                correctamente.</td>
+            </tr>
+            <tr>
+              <td>&lt;meta name="viewport"...&gt;</td>
+              <td>Torna a pagina responsiva em telemoveis. Sem isto, a pagina aparece muito pequena em ecras pequenos.
+              </td>
+            </tr>
+            <tr>
+              <td>&lt;title&gt;ServeNow - Home&lt;/title&gt;</td>
+              <td>Texto que aparece no separador do browser.</td>
+            </tr>
+            <tr>
+              <td>&lt;link rel="stylesheet" href="estilo.css"&gt;</td>
+              <td>Liga o ficheiro CSS global. O rel="stylesheet" diz ao browser que e um ficheiro de estilos.</td>
+            </tr>
+            <tr>
+              <td>&lt;link rel="stylesheet" href="index.css"&gt;</td>
+              <td>Liga o CSS especifico desta pagina. Carregado a seguir ao estilo.css.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 2 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Navegacao (&lt;nav&gt;) <span class="numero">2</span></div>
+          <div class="bloco-desc">Barra de navegacao no topo. Contem o logo e os links principais incluindo os botoes de
+            entrada e registo.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>&lt;nav&gt;</td>
+              <td>Tag semantica HTML para navegacao. O browser e os motores de busca sabem que este bloco e um menu.
+              </td>
+            </tr>
+            <tr>
+              <td>&lt;div class="logo"&gt;</td>
+              <td>Contentor do nome da marca. O estilo .logo esta definido no estilo.css.</td>
+            </tr>
+            <tr>
+              <td>&lt;span&gt;Serve&lt;/span&gt;Now</td>
+              <td>O &lt;span&gt; envolve "Serve" para lhe dar a cor vermelha via CSS, sem afectar "Now".</td>
+            </tr>
+            <tr>
+              <td>class="btn"</td>
+              <td>Aplica o estilo de botao com contorno (definido no estilo.css) ao link "Entrar".</td>
+            </tr>
+            <tr>
+              <td>class="btn-preenchido"</td>
+              <td>Aplica o estilo de botao preenchido a preto ao link "Cadastrar".</td>
+            </tr>
+            <tr>
+              <td>href="cadastro.html"</td>
+              <td>Ao clicar, navega para a pagina de cadastro.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 3 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Hero (&lt;section class="hero"&gt;) <span class="numero">3</span></div>
+          <div class="bloco-desc">A seccao de destaque no topo da pagina. Contem o titulo, descricao, barra de pesquisa
+            e os numeros estatisticos.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>&lt;section class="hero"&gt;</td>
+              <td>Tag semantica para uma seccao da pagina. A classe "hero" aplica o fundo escuro e o padding definidos
+                no index.css.</td>
+            </tr>
+            <tr>
+              <td>&lt;h1&gt;</td>
+              <td>Titulo principal da pagina. Deve haver so um &lt;h1&gt; por pagina — e o titulo mais importante.</td>
+            </tr>
+            <tr>
+              <td>&lt;span&gt;certo&lt;/span&gt;</td>
+              <td>Envolve a palavra "certo" para lhe aplicar a cor vermelha via CSS.</td>
+            </tr>
+            <tr>
+              <td>class="barra-pesquisa"</td>
+              <td>Contentor da barra de pesquisa. O CSS no index.css usa flex para alinhar o input e o botao lado a
+                lado.</td>
+            </tr>
+            <tr>
+              <td>&lt;input type="text"&gt;</td>
+              <td>Campo de texto onde o utilizador escreve o servico que procura.</td>
+            </tr>
+            <tr>
+              <td>class="numeros"</td>
+              <td>Contentor das tres estatisticas (prestadores, servicos, satisfacao). Usa flex para os mostrar em
+                linha.</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- BLOCO 4 -->
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 4 — Como Funciona e Prestadores <span class="numero">4</span></div>
+          <div class="bloco-desc">Duas seccoes: os 4 passos de utilizacao da plataforma e os cards dos prestadores
+            verificados. Seguidas do rodape.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>&lt;section class="como-funciona"&gt;</td>
+              <td>Seccao com fundo cinza (var(--fundo)) que explica o processo de utilizacao em 4 passos.</td>
+            </tr>
+            <tr>
+              <td>class="passos"</td>
+              <td>Grelha com 4 colunas iguais (definido no index.css com grid-template-columns: repeat(4, 1fr)).</td>
+            </tr>
+            <tr>
+              <td>class="passo"</td>
+              <td>Card individual de cada passo, com borda e fundo branco.</td>
+            </tr>
+            <tr>
+              <td>class="numero-passo"</td>
+              <td>Texto "Passo 01", "Passo 02", etc. Estilizado em vermelho e letras pequenas com espacamento.</td>
+            </tr>
+            <tr>
+              <td>class="prestadores-verificados"</td>
+              <td>Seccao com fundo branco que mostra 4 prestadores em grelha.</td>
+            </tr>
+            <tr>
+              <td>class="lista-prestadores"</td>
+              <td>Grelha de 4 colunas para os cards dos prestadores.</td>
+            </tr>
+            <tr>
+              <td>class="card-prestador"</td>
+              <td>Card individual do prestador com avatar, nome, especialidade e etiqueta "Verificado".</td>
+            </tr>
+            <tr>
+              <td>class="avatar"</td>
+              <td>Circulo cinza que representa a foto do prestador (placeholder).</td>
+            </tr>
+            <tr>
+              <td>&lt;footer&gt;</td>
+              <td>Rodape escuro com 4 colunas de links. Estilo definido no estilo.css.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- INDEX.CSS -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="index-css">
+        <div class="titulo-secao">
+          <h2>index.css</h2>
+          <span class="badge-tipo css">CSS</span>
+        </div>
+        <div class="subtitulo-secao">Estilos especificos da pagina Home. Cobre o hero, a barra de pesquisa, os passos e
+          os cards de prestadores.</div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Hero <span class="numero">1</span></div>
+          <div class="bloco-desc">Estilos da seccao de destaque no topo: fundo escuro, titulo grande e descricao.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.hero { background: var(--preto); }</td>
+              <td>Aplica o fundo azul-escuro ao hero, usando a variavel de cor.</td>
+            </tr>
+            <tr>
+              <td>padding: 70px 40px;</td>
+              <td>Espaco interior: 70px em cima e baixo, 40px nos lados.</td>
+            </tr>
+            <tr>
+              <td>.hero h1 { font-size: 42px; }</td>
+              <td>Titulo principal com 42 pixeis — tamanho grande para impacto visual.</td>
+            </tr>
+            <tr>
+              <td>line-height: 1.15;</td>
+              <td>Espaco entre linhas de texto. 1.15 significa 15% maior que o tamanho da fonte.</td>
+            </tr>
+            <tr>
+              <td>max-width: 500px;</td>
+              <td>Limita a largura maxima do titulo para nao ficar demasiado esticado em ecras grandes.</td>
+            </tr>
+            <tr>
+              <td>color: rgba(255,255,255,0.65);</td>
+              <td>Branco com 65% de opacidade, criando um cinza claro para o paragrafo de descricao.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Barra de Pesquisa <span class="numero">2</span></div>
+          <div class="bloco-desc">Input e botao de pesquisa alinhados lado a lado dentro do hero.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.barra-pesquisa { display: flex; }</td>
+              <td>Flex coloca o input e o botao lado a lado automaticamente.</td>
+            </tr>
+            <tr>
+              <td>max-width: 500px;</td>
+              <td>Limita o comprimento maximo da barra.</td>
+            </tr>
+            <tr>
+              <td>border: 2px solid rgba(255,255,255,0.2);</td>
+              <td>Borda branca com pouca opacidade (20%) — subtil sobre o fundo escuro.</td>
+            </tr>
+            <tr>
+              <td>.barra-pesquisa input { flex: 1; }</td>
+              <td>O input expande para ocupar todo o espaco disponivel, deixando o botao com o seu tamanho natural.</td>
+            </tr>
+            <tr>
+              <td>outline: none;</td>
+              <td>Remove o contorno azul do browser quando o campo esta activo.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Passos e Cards de Prestadores <span class="numero">3</span></div>
+          <div class="bloco-desc">Grelhas de 4 colunas para os passos e os cards dos prestadores.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.passos { display: grid; grid-template-columns: repeat(4, 1fr); }</td>
+              <td>Cria uma grelha com 4 colunas de largura igual. "repeat(4, 1fr)" e o mesmo que escrever "1fr 1fr 1fr
+                1fr".</td>
+            </tr>
+            <tr>
+              <td>gap: 16px;</td>
+              <td>Espaco de 16 pixeis entre cada coluna e linha da grelha.</td>
+            </tr>
+            <tr>
+              <td>.passo { border: 2px solid var(--borda); }</td>
+              <td>Borda cinza em cada card de passo.</td>
+            </tr>
+            <tr>
+              <td>text-align: center;</td>
+              <td>Centra todo o conteudo dentro do card (numero, titulo, descricao).</td>
+            </tr>
+            <tr>
+              <td>.lista-prestadores { grid-template-columns: repeat(4, 1fr); }</td>
+              <td>Mesma estrutura de 4 colunas para os cards dos prestadores.</td>
+            </tr>
+            <tr>
+              <td>.avatar { border-radius: 50%; }</td>
+              <td>Torna o quadrado do avatar num circulo perfeito (50% de raio de borda).</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- CADASTRO.HTML -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="cadastro-html">
+        <div class="titulo-secao">
+          <h2>cadastro.html</h2>
+          <span class="badge-tipo html">HTML</span>
+        </div>
+        <div class="subtitulo-secao">Pagina de registo com dois tipos de conta (Cliente e Prestador). Os campos do
+          Prestador so aparecem quando o utilizador selecciona essa opcao.</div>
+
+        <div class="resumo-pagina">
+          <div class="resumo-item">
+            <div class="label">Pagina</div>
+            <div class="valor">Cadastro</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">CSS Ligado</div>
+            <div class="valor">estilo.css + cadastro.css</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Blocos HTML</div>
+            <div class="valor">5 blocos</div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Bloco Esquerdo (Beneficios) <span class="numero">1</span></div>
+          <div class="bloco-desc">Painel lateral escuro com titulo e lista de beneficios da plataforma. Ocupa 340px de
+            largura fixa.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="bloco-esquerdo"</td>
+              <td>Painel escuro da esquerda. Tem width: 340px fixo e flex-shrink: 0 para nao encolher.</td>
+            </tr>
+            <tr>
+              <td>class="lista-beneficios"</td>
+              <td>Contentor dos 4 itens de beneficio. Usa flex direction column para os empilhar verticalmente.</td>
+            </tr>
+            <tr>
+              <td>class="item"</td>
+              <td>Cada beneficio tem uma borda vermelha a esquerda (border-left: 2px solid var(--vermelho)) como
+                decoracao.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Selector de Tipo de Conta <span class="numero">2</span></div>
+          <div class="bloco-desc">Dois botoes selectores: Cliente e Prestador. O clique activa o JavaScript que mostra
+            ou esconde os campos adicionais.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="tipo-conta"</td>
+              <td>Grelha de 2 colunas iguais para os dois selectores ficarem lado a lado.</td>
+            </tr>
+            <tr>
+              <td>class="opcao-tipo activo"</td>
+              <td>A classe "activo" e adicionada pelo JavaScript ao selector escolhido, mudando a sua aparencia (borda
+                preta, fundo cinza).</td>
+            </tr>
+            <tr>
+              <td>id="btn-cliente"</td>
+              <td>Identificador unico usado pelo JavaScript para encontrar este elemento e manipula-lo.</td>
+            </tr>
+            <tr>
+              <td>onclick="escolherTipo('cliente')"</td>
+              <td>Ao clicar, chama a funcao JavaScript "escolherTipo" passando o valor "cliente".</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Campos Basicos do Formulario <span class="numero">3</span></div>
+          <div class="bloco-desc">Campos comuns a todos os utilizadores: nome, apelido, email, telefone e senha.
+            Aparecem sempre.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="dois-campos"</td>
+              <td>Grelha de 2 colunas para colocar campos lado a lado (ex: Nome e Apelido).</td>
+            </tr>
+            <tr>
+              <td>class="campo"</td>
+              <td>Contentor de cada campo com label + input. O estilo esta no estilo.css.</td>
+            </tr>
+            <tr>
+              <td>type="email"</td>
+              <td>Campo de email. O browser valida automaticamente que o texto tem formato de email.</td>
+            </tr>
+            <tr>
+              <td>type="password"</td>
+              <td>Campo de senha. O texto digitado aparece como pontos para seguranca.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 4 — Campos do Prestador (ocultos) <span class="numero">4</span></div>
+          <div class="bloco-desc">Bloco com campos extras apenas para Prestadores. Começa oculto (display: none) e
+            aparece ao clicar em "Prestador".</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="campos-prestador"</td>
+              <td>Por defeito tem display: none no CSS, tornando-o invisivel.</td>
+            </tr>
+            <tr>
+              <td>id="campos-prestador"</td>
+              <td>ID usado pelo JavaScript para encontrar este bloco e adicionar a classe "visivel".</td>
+            </tr>
+            <tr>
+              <td>class="campos-prestador visivel"</td>
+              <td>Quando o JavaScript adiciona a classe "visivel", o CSS muda para display: block, tornando o bloco
+                visivel.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 5 — JavaScript (logica do selector) <span class="numero">5</span></div>
+          <div class="bloco-desc">Codigo JavaScript que controla qual tipo de conta esta seleccionado e mostra/esconde
+            os campos do prestador.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>function escolherTipo(tipo) { }</td>
+              <td>Funcao chamada quando o utilizador clica num dos selectores. Recebe "cliente" ou "prestador".</td>
+            </tr>
+            <tr>
+              <td>document.getElementById('btn-cliente')</td>
+              <td>Encontra o elemento HTML com id="btn-cliente" para o poder modificar.</td>
+            </tr>
+            <tr>
+              <td>classList.add('activo')</td>
+              <td>Adiciona a classe CSS "activo" ao elemento, mudando a sua aparencia visual.</td>
+            </tr>
+            <tr>
+              <td>classList.remove('activo')</td>
+              <td>Remove a classe CSS "activo" do outro elemento, voltando ao estilo normal.</td>
+            </tr>
+            <tr>
+              <td>camposPrestador.classList.add('visivel')</td>
+              <td>Adiciona a classe "visivel" ao bloco de campos do prestador, tornando-o visivel via CSS.</td>
+            </tr>
+            <tr>
+              <td>camposPrestador.classList.remove('visivel')</td>
+              <td>Remove a classe "visivel", voltando a esconder o bloco de campos do prestador.</td>
+            </tr>
+          </table>
+          <div class="nota">O JavaScript nao cria nem apaga elementos — apenas adiciona e remove classes CSS. E o CSS
+            que decide se o bloco e visivel ou nao, atraves de display: none e display: block.</div>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- CADASTRO.CSS -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="cadastro-css">
+        <div class="titulo-secao">
+          <h2>cadastro.css</h2>
+          <span class="badge-tipo css">CSS</span>
+        </div>
+        <div class="subtitulo-secao">Estilos do layout de dois blocos, dos selectores de tipo de conta e dos campos
+          condicionais do prestador.</div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout de Dois Blocos <span class="numero">1</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.pagina-cadastro { display: flex; }</td>
+              <td>Flex coloca o bloco esquerdo e o formulario lado a lado na horizontal.</td>
+            </tr>
+            <tr>
+              <td>min-height: calc(100vh - 60px);</td>
+              <td>Altura minima igual ao ecra inteiro menos os 60px da navegacao. Garante que a pagina preenche o ecra.
+              </td>
+            </tr>
+            <tr>
+              <td>.bloco-esquerdo { width: 340px; flex-shrink: 0; }</td>
+              <td>Largura fixa de 340px. flex-shrink: 0 impede que este bloco encolha quando o ecra e mais pequeno.</td>
+            </tr>
+            <tr>
+              <td>.bloco-formulario { flex: 1; }</td>
+              <td>O formulario ocupa todo o espaco restante apos o bloco esquerdo dos 340px.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Selector e Campos Condicionais <span class="numero">2</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.tipo-conta { display: grid; grid-template-columns: 1fr 1fr; }</td>
+              <td>Dois selectores lado a lado com largura igual.</td>
+            </tr>
+            <tr>
+              <td>.opcao-tipo { border: 2px solid var(--borda); }</td>
+              <td>Estado normal: borda cinza, fundo branco.</td>
+            </tr>
+            <tr>
+              <td>.opcao-tipo.activo { border-color: var(--preto); background: var(--fundo); }</td>
+              <td>Quando activo: borda escura e fundo cinza claro. O ponto (.) une as duas classes — so aplica quando o
+                elemento tem AMBAS as classes.</td>
+            </tr>
+            <tr>
+              <td>.campos-prestador { display: none; }</td>
+              <td>Esconde o bloco por defeito. Sera substituido por display: block quando a classe "visivel" for
+                adicionada.</td>
+            </tr>
+            <tr>
+              <td>.campos-prestador.visivel { display: block; }</td>
+              <td>Mostra o bloco quando tem a classe "visivel". O JavaScript e que adiciona e remove essa classe.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- EXPLORAR.HTML -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="explorar-html">
+        <div class="titulo-secao">
+          <h2>explorar.html</h2>
+          <span class="badge-tipo html">HTML</span>
+        </div>
+        <div class="subtitulo-secao">Pagina de listagem de servicos com coluna de filtros a esquerda e resultados a
+          direita.</div>
+
+        <div class="resumo-pagina">
+          <div class="resumo-item">
+            <div class="label">Pagina</div>
+            <div class="valor">Explorar</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">CSS Ligado</div>
+            <div class="valor">estilo.css + explorar.css</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Blocos HTML</div>
+            <div class="valor">4 blocos</div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout Principal <span class="numero">1</span></div>
+          <div class="bloco-desc">Contentor que divide a pagina em dois: coluna de filtros (240px) e coluna de
+            resultados (restante).</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="layout-explorar"</td>
+              <td>Grelha de 2 colunas: 240px fixo para filtros e 1fr (resto) para resultados. Definido no explorar.css.
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Coluna de Filtros <span class="numero">2</span></div>
+          <div class="bloco-desc">Sidebar esquerda com opcoes de filtragem: categoria, preco, avaliacao e
+            disponibilidade.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="coluna-filtros"</td>
+              <td>Painel branco com borda direita que separa visualmente dos resultados.</td>
+            </tr>
+            <tr>
+              <td>class="grupo-filtro"</td>
+              <td>Cada grupo de filtros tem uma borda no topo para separar visualmente os grupos.</td>
+            </tr>
+            <tr>
+              <td>&lt;input type="checkbox"&gt;</td>
+              <td>Caixas de verificacao para filtros de categoria e disponibilidade. O atributo "checked" deixa-as
+                pre-seleccionadas.</td>
+            </tr>
+            <tr>
+              <td>&lt;input type="radio" name="aval"&gt;</td>
+              <td>Botoes de radio para a avaliacao. O atributo "name" iguala garante que so um pode ser seleccionado de
+                cada vez.</td>
+            </tr>
+            <tr>
+              <td>type="number"</td>
+              <td>Campo que so aceita numeros. Para os valores minimo e maximo do preco.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Cards de Servico <span class="numero">3</span></div>
+          <div class="bloco-desc">Cada resultado e um card em linha com imagem, informacoes do servico e preco. E uma
+            tag &lt;a&gt; que leva para o detalhe.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>&lt;a href="detalhe.html" class="card-servico"&gt;</td>
+              <td>O card inteiro e um link para a pagina de detalhe. A classe aplica os estilos de card.</td>
+            </tr>
+            <tr>
+              <td>class="imagem-thumb"</td>
+              <td>Quadrado cinza de 90x72px que representa a imagem do servico (placeholder).</td>
+            </tr>
+            <tr>
+              <td>class="info"</td>
+              <td>Bloco que cresce (flex: 1) para ocupar o espaco entre a imagem e o preco.</td>
+            </tr>
+            <tr>
+              <td>class="categoria"</td>
+              <td>Etiqueta vermelha com o nome da categoria (ex: CANALIZADOR).</td>
+            </tr>
+            <tr>
+              <td>class="linha-meta"</td>
+              <td>Linha com avaliacao, numero de avaliacoes, disponibilidade e botao, todos em flex.</td>
+            </tr>
+            <tr>
+              <td>class="disponivel" / class="ocupado"</td>
+              <td>Dois estilos diferentes: verde para disponivel, amarelo para ocupado.</td>
+            </tr>
+            <tr>
+              <td>class="preco-col"</td>
+              <td>Coluna direita com o valor e a unidade (ex: /hora). Text-align: right para alinhar a direita.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 4 — Paginacao <span class="numero">4</span></div>
+          <div class="bloco-desc">Botoes de navegacao entre paginas de resultados.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="paginacao"</td>
+              <td>Contentor flex com justify-content: center para centrar os botoes.</td>
+            </tr>
+            <tr>
+              <td>class="activo"</td>
+              <td>O botao da pagina actual tem fundo preto e texto branco. Os outros sao apenas contorno.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- EXPLORAR.CSS -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="explorar-css">
+        <div class="titulo-secao">
+          <h2>explorar.css</h2>
+          <span class="badge-tipo css">CSS</span>
+        </div>
+        <div class="subtitulo-secao">Estilos da grelha de layout, dos filtros, dos cards de servico em linha e da
+          paginacao.</div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout e Filtros <span class="numero">1</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.layout-explorar { display: grid; grid-template-columns: 240px 1fr; }</td>
+              <td>Grelha de 2 colunas: a primeira tem 240px fixo, a segunda ocupa o resto com 1fr.</td>
+            </tr>
+            <tr>
+              <td>.coluna-filtros { border-right: 2px solid var(--borda); }</td>
+              <td>Linha de separacao a direita da coluna de filtros.</td>
+            </tr>
+            <tr>
+              <td>.grupo-filtro { border-top: 1px solid var(--borda); }</td>
+              <td>Linha fina no topo de cada grupo de filtro para separa-los visualmente.</td>
+            </tr>
+            <tr>
+              <td>.grupo-filtro label { display: flex; gap: 8px; }</td>
+              <td>Alinha o checkbox e o texto do label em linha com 8px de espaco entre eles.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Cards de Servico <span class="numero">2</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.card-servico { display: flex; gap: 18px; }</td>
+              <td>Layout em linha com espaco de 18px entre imagem, info e preco.</td>
+            </tr>
+            <tr>
+              <td>.card-servico:hover { border-color: var(--preto); }</td>
+              <td>Ao passar o rato por cima, a borda muda para preto, indicando que e interactivo.</td>
+            </tr>
+            <tr>
+              <td>.card-servico { text-decoration: none; color: var(--preto); }</td>
+              <td>Como o card e uma tag &lt;a&gt;, remove o sublinhado e a cor azul padrao dos links.</td>
+            </tr>
+            <tr>
+              <td>.svc-info { flex: 1; }</td>
+              <td>O bloco de informacoes cresce para preencher o espaco entre a imagem e o preco.</td>
+            </tr>
+            <tr>
+              <td>.preco-col { text-align: right; flex-shrink: 0; }</td>
+              <td>Preco alinhado a direita. flex-shrink: 0 impede que encolha mesmo quando o espaco e reduzido.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- DETALHE.HTML -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="detalhe-html">
+        <div class="titulo-secao">
+          <h2>detalhe.html</h2>
+          <span class="badge-tipo html">HTML</span>
+        </div>
+        <div class="subtitulo-secao">Pagina de detalhe de um servico. Mostra toda a informacao do servico a esquerda e a
+          caixa de contacto a direita.</div>
+
+        <div class="resumo-pagina">
+          <div class="resumo-item">
+            <div class="label">Pagina</div>
+            <div class="valor">Detalhe do Servico</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">CSS Ligado</div>
+            <div class="valor">estilo.css + detalhe.css</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Blocos HTML</div>
+            <div class="valor">5 blocos</div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout Principal <span class="numero">1</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="layout-detalhe"</td>
+              <td>Grelha de 2 colunas: coluna principal (1fr) e sidebar de contacto (320px fixo).</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Coluna Principal (Informacao do Servico) <span class="numero">2</span>
+          </div>
+          <div class="bloco-desc">Conteudo principal: caminho de navegacao, imagem, titulo, meta informacao e card do
+            prestador.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="caminho"</td>
+              <td>Navegacao em migalhas de pao (breadcrumb): Inicio > Categoria > Servico. Ajuda o utilizador a saber
+                onde esta.</td>
+            </tr>
+            <tr>
+              <td>&amp;rsaquo;</td>
+              <td>Codigo HTML para o caracter de seta "›". Usado como separador no caminho.</td>
+            </tr>
+            <tr>
+              <td>class="imagem-principal"</td>
+              <td>Placeholder de 260px de altura para a imagem do servico.</td>
+            </tr>
+            <tr>
+              <td>class="etiqueta-categoria"</td>
+              <td>Etiqueta vermelha com o nome da categoria. Aparece por cima do titulo.</td>
+            </tr>
+            <tr>
+              <td>class="meta-servico"</td>
+              <td>Linha com avaliacao, nota, numero de avaliacoes, localizacao e verificacao. Usa flex com gap.</td>
+            </tr>
+            <tr>
+              <td>class="card-prestador-mini"</td>
+              <td>Card compacto do prestador com avatar, nome, descricao e botao "Ver perfil".</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Abas de Navegacao <span class="numero">3</span></div>
+          <div class="bloco-desc">Abas para alternar entre Descricao e Avaliacoes do servico.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="abas"</td>
+              <td>Contentor flex com borda inferior que imita o visual de separadores/abas.</td>
+            </tr>
+            <tr>
+              <td>class="aba activa"</td>
+              <td>A aba activa tem borda inferior preta (border-bottom: 2px solid var(--preto)). As inactivas sao cinza.
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 4 — Sidebar: Caixa de Contacto <span class="numero">4</span></div>
+          <div class="bloco-desc">Painel fixo lateral com preco, caracteristicas do servico e formulario para enviar
+            pedido de contacto.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="caixa-contacto"</td>
+              <td>Card com borda preta. Tem topo escuro com titulo e corpo com o conteudo.</td>
+            </tr>
+            <tr>
+              <td>class="topo"</td>
+              <td>Barra preta no topo da caixa com o texto "Contactar Prestador".</td>
+            </tr>
+            <tr>
+              <td>class="lista-caracteristicas"</td>
+              <td>Lista de pontos positivos do servico, cada um com um "v" vermelho a esquerda via CSS ::before.</td>
+            </tr>
+            <tr>
+              <td>class="btn-contacto"</td>
+              <td>Botao vermelho de largura total (width: 100%) para enviar o pedido.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 5 — Bloco de Informacao do Prestador <span class="numero">5</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="info-prestador"</td>
+              <td>Bloco cinza por baixo da caixa de contacto com dados do prestador: localizacao, tempo de resposta,
+                data de registo.</td>
+            </tr>
+            <tr>
+              <td>class="linha"</td>
+              <td>Cada linha de informacao com texto cinza e margem inferior de 6px.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- DETALHE.CSS -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="detalhe-css">
+        <div class="titulo-secao">
+          <h2>detalhe.css</h2>
+          <span class="badge-tipo css">CSS</span>
+        </div>
+        <div class="subtitulo-secao">Estilos do layout de duas colunas, da coluna principal e da sidebar de contacto.
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout e Coluna Principal <span class="numero">1</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.layout-detalhe { display: grid; grid-template-columns: 1fr 320px; }</td>
+              <td>Grelha de 2 colunas: a esquerda cresce (1fr), a direita tem 320px fixo para a sidebar.</td>
+            </tr>
+            <tr>
+              <td>.coluna-principal { border-right: 2px solid var(--borda); }</td>
+              <td>Linha de separacao entre a coluna principal e a sidebar.</td>
+            </tr>
+            <tr>
+              <td>.abas .aba { border-bottom: 2px solid transparent; margin-bottom: -2px; }</td>
+              <td>A borda da aba e inicialmente transparente. O margin negativo de -2px sobrepoe-se a borda do
+                contentor, criando o efeito visual de aba.</td>
+            </tr>
+            <tr>
+              <td>.abas .aba.activa { border-color: var(--preto); }</td>
+              <td>A aba activa mostra a borda preta, sobrepondo-se a borda cinza do contentor .abas.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Caixa de Contacto <span class="numero">2</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.caixa-contacto { overflow: hidden; }</td>
+              <td>Esconde o conteudo que ultrapasse os limites do card, necessario para a borda arredondada funcionar
+                correctamente com o topo escuro.</td>
+            </tr>
+            <tr>
+              <td>.lista-caracteristicas .item::before { content: 'v'; color: var(--vermelho); }</td>
+              <td>O ::before insere conteudo antes de cada .item via CSS, sem precisar de HTML extra. O 'v' funciona
+                como marca de verificacao.</td>
+            </tr>
+            <tr>
+              <td>.btn-contacto { width: 100%; }</td>
+              <td>O botao ocupa toda a largura disponivel dentro da caixa de contacto.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- DASHBOARD.HTML -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="dashboard-html">
+        <div class="titulo-secao">
+          <h2>dashboard.html</h2>
+          <span class="badge-tipo html">HTML</span>
+        </div>
+        <div class="subtitulo-secao">Painel de controlo para o Prestador. Mostra metricas, pedidos recentes, avaliacoes
+          e os seus servicos activos.</div>
+
+        <div class="resumo-pagina">
+          <div class="resumo-item">
+            <div class="label">Pagina</div>
+            <div class="valor">Dashboard</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">CSS Ligado</div>
+            <div class="valor">estilo.css + dashboard.css</div>
+          </div>
+          <div class="resumo-item">
+            <div class="label">Blocos HTML</div>
+            <div class="valor">6 blocos</div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout Principal <span class="numero">1</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="layout-dashboard"</td>
+              <td>Grelha de 2 colunas: sidebar de 210px a esquerda e conteudo principal a direita.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Sidebar de Navegacao <span class="numero">2</span></div>
+          <div class="bloco-desc">Menu lateral escuro com os itens de navegacao do dashboard.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="sidebar-dashboard"</td>
+              <td>Painel escuro de 210px com os itens de menu empilhados verticalmente.</td>
+            </tr>
+            <tr>
+              <td>class="item-menu activo"</td>
+              <td>O item activo tem fundo ligeiramente claro e uma borda vermelha a esquerda como indicador.</td>
+            </tr>
+            <tr>
+              <td>class="badge-msg"</td>
+              <td>Bolinha vermelha com o numero de mensagens nao lidas. Colocada com margin-left: auto para ficar a
+                direita.</td>
+            </tr>
+            <tr>
+              <td>style="border-top:..."</td>
+              <td>Estilo inline para adicionar uma linha de separacao antes dos itens "Definicoes" e "Sair".</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 3 — Metricas (KPIs) <span class="numero">3</span></div>
+          <div class="bloco-desc">Quatro cards com numeros chave: pedidos, receita, avaliacao e visualizacoes.</div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="grade-metricas"</td>
+              <td>Grelha de 4 colunas iguais para os 4 cards de metricas.</td>
+            </tr>
+            <tr>
+              <td>class="cartao-metrica"</td>
+              <td>Card branco com borda. Contem etiqueta, valor grande e indicador de variacao.</td>
+            </tr>
+            <tr>
+              <td>class="etiqueta"</td>
+              <td>Texto pequeno em maiusculas descrevendo a metrica (ex: PEDIDOS).</td>
+            </tr>
+            <tr>
+              <td>class="valor"</td>
+              <td>Numero grande em destaque (26px e bold).</td>
+            </tr>
+            <tr>
+              <td>class="variacao"</td>
+              <td>Texto verde com a tendencia (ex: +3 este mes).</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 4 — Painel de Pedidos Recentes <span class="numero">4</span></div>
+          <div class="bloco-desc">Tabela com os ultimos pedidos, cada um com cliente, servico, data, estado e valor.
+          </div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="painel"</td>
+              <td>Card com borda que envolve cada seccao do dashboard (tabela, avaliacoes, servicos).</td>
+            </tr>
+            <tr>
+              <td>class="area-grafico"</td>
+              <td>Rectangulo com borda tracejada que representa o espaco para um futuro grafico.</td>
+            </tr>
+            <tr>
+              <td>&lt;table&gt;</td>
+              <td>Elemento HTML de tabela com linhas (&lt;tr&gt;), cabecalhos (&lt;th&gt;) e celulas (&lt;td&gt;).</td>
+            </tr>
+            <tr>
+              <td>&lt;thead&gt; e &lt;tbody&gt;</td>
+              <td>&lt;thead&gt; contem a linha de cabecalho. &lt;tbody&gt; contem as linhas de dados. Boa pratica para
+                acessibilidade.</td>
+            </tr>
+            <tr>
+              <td>class="estado confirmado"</td>
+              <td>Etiqueta de estado com cor verde. Existem tres variantes: confirmado (verde), pendente (amarelo),
+                concluido (azul).</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 5 — Dois Paineis (Avaliacoes e Servicos) <span class="numero">5</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>class="dois-paineis"</td>
+              <td>Grelha de 2 colunas iguais (1fr 1fr) para mostrar avaliacoes e servicos lado a lado.</td>
+            </tr>
+            <tr>
+              <td>class="avaliacao-item"</td>
+              <td>Cada avaliacao com nome, estrelas e texto da avaliacao. Separados por border-bottom.</td>
+            </tr>
+            <tr>
+              <td>class="lista-meus-servicos"</td>
+              <td>Lista dos servicos do prestador com nome e etiqueta de estado (activo/pausado).</td>
+            </tr>
+            <tr>
+              <td>class="linha-servico"</td>
+              <td>Linha cinza com o nome do servico a esquerda e a etiqueta de estado a direita, usando justify-content:
+                space-between.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- DASHBOARD.CSS -->
+      <!-- ============================================================ -->
+      <div class="secao-pagina" id="dashboard-css">
+        <div class="titulo-secao">
+          <h2>dashboard.css</h2>
+          <span class="badge-tipo css">CSS</span>
+        </div>
+        <div class="subtitulo-secao">Estilos do layout com sidebar, dos cards de metricas, da tabela de pedidos e dos
+          paineis de conteudo.</div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 1 — Layout e Sidebar <span class="numero">1</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.layout-dashboard { display: grid; grid-template-columns: 210px 1fr; }</td>
+              <td>Sidebar fixa de 210px a esquerda, conteudo ocupa o resto a direita.</td>
+            </tr>
+            <tr>
+              <td>min-height: calc(100vh - 60px);</td>
+              <td>A grelha tem pelo menos a altura do ecra menos a barra de nav, para a sidebar chegar ao fundo da
+                pagina.</td>
+            </tr>
+            <tr>
+              <td>.item-menu.activo { border-left: 3px solid var(--vermelho); }</td>
+              <td>Linha vermelha de 3px a esquerda do item activo. Indicador visual de localizacao no menu.</td>
+            </tr>
+            <tr>
+              <td>.badge-msg { margin-left: auto; }</td>
+              <td>O "auto" no margin empurra o badge para a extremidade direita dentro do item flex.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bloco">
+          <div class="bloco-titulo">Bloco 2 — Metricas, Tabela e Paineis <span class="numero">2</span></div>
+          <table class="tabela-codigo">
+            <tr>
+              <td>.grade-metricas { grid-template-columns: repeat(4, 1fr); }</td>
+              <td>Quatro colunas de largura igual para os cards de metricas.</td>
+            </tr>
+            <tr>
+              <td>.conteudo-dashboard { background: var(--fundo); }</td>
+              <td>Fundo cinza claro para a area de conteudo, criando contraste com os cards brancos.</td>
+            </tr>
+            <tr>
+              <td>table { border-collapse: collapse; }</td>
+              <td>Remove os espacos entre as bordas das celulas da tabela, criando uma grelha continua.</td>
+            </tr>
+            <tr>
+              <td>th { background: var(--fundo); text-transform: uppercase; }</td>
+              <td>Cabecalho da tabela com fundo cinza e texto em maiusculas para diferenciar dos dados.</td>
+            </tr>
+            <tr>
+              <td>td { border-top: 1px solid var(--borda); }</td>
+              <td>Linha de separacao fina entre cada linha da tabela.</td>
+            </tr>
+            <tr>
+              <td>.estado.confirmado { background: #D4EDDA; color: #155724; }</td>
+              <td>Estilo especifico da etiqueta "Confirmado": fundo verde claro e texto verde escuro.</td>
+            </tr>
+            <tr>
+              <td>.dois-paineis { grid-template-columns: 1fr 1fr; }</td>
+              <td>Os dois paineis inferiores (Avaliacoes e Servicos) ficam lado a lado com largura igual.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+    </div><!-- fim conteudo -->
+  </div><!-- fim layout -->
+
+</body>
+
+</html>

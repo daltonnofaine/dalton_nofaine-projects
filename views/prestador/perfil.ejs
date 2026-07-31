@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Perfil do Prestador</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/perfil-prestador.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-prestador") %>
+
+    <main class="layout-prestador">
+      <section class="cabecalho-prestador">
+        <div class="avatar-grande">
+          <img src="<%= prestador.avatar_url || '/img/shared/usuarios/dalton.jpeg' %>" alt="Foto do prestador" />
+        </div>
+        <div>
+          <h1>Perfil do Especialista - <%= prestador.nome %></h1>
+          <p style="color: var(--preto);">Mantenha apenas os dados essenciais do seu perfil profissional.</p>
+          <div id="perfil-prestador-feedback" class="nota-form" style="color: var(--vermelho);"></div>
+        </div>
+        <button class="btn-vermelho" type="button" onclick="guardarPerfilPrestador()">Salvar Alteracoes</button>
+      </section>
+
+      <section class="grade-perfil-prestador">
+        <article class="painel">
+          <div class="cabecalho-painel">Informacoes Basicas do Especialista</div>
+          <div class="corpo-painel">
+            <div class="dois-campos">
+              <div class="campo">
+                <label>Nome Profissional</label>
+                <input id="pp-nome" type="text" value="<%= prestador.nome %>" />
+              </div>
+              <div class="campo">
+                <label>Telefone</label>
+                <input id="pp-telefone" type="text" value="<%= prestador.telefone || '' %>" />
+              </div>
+            </div>
+            <div class="dois-campos">
+              <div class="campo">
+                <label>Email</label>
+                <input type="email" value="<%= prestador.email %>" disabled />
+              </div>
+              <div class="campo">
+                <label>Cidade</label>
+                <input id="pp-cidade" type="text" value="<%= prestador.prestadores ? (prestador.prestadores.cidade || '') : '' %>" />
+              </div>
+            </div>
+            <div class="dois-campos">
+              <div class="campo">
+                <label>Categoria Principal</label>
+                <input id="pp-especialidade" type="text" value="<%= prestador.prestadores ? (prestador.prestadores.especialidade || '') : '' %>" />
+              </div>
+              <div class="campo">
+                <label>Anos de Experiencia</label>
+                <input id="pp-anos" type="text" value="<%= prestador.prestadores ? (prestador.prestadores.anos_experiencia || '') : '' %>" />
+              </div>
+            </div>
+            <div class="dois-campos">
+              <div class="campo">
+                <label>Preco Medio</label>
+                <input id="pp-preco" type="number" value="<%= prestador.prestadores ? (prestador.prestadores.preco_medio || '') : '' %>" />
+              </div>
+              <div class="campo">
+                <label>Estado de Verificacao</label>
+                <input type="text" value="<%= prestador.prestadores ? (prestador.prestadores.estado_verificacao || 'pendente') : 'pendente' %>" disabled />
+              </div>
+            </div>
+            <div class="campo">
+              <label>Biografia Breve</label>
+              <textarea id="pp-bio"><%= prestador.prestadores ? (prestador.prestadores.biografia || '') : '' %></textarea>
+            </div>
+          </div>
+        </article>
+
+        <article class="painel">
+          <div class="cabecalho-painel">Credibilidade e Disponibilidade</div>
+          <div class="corpo-painel">
+            <div class="item-config">
+              <div>
+                <strong>Avaliacao media</strong>
+                <p><%= prestador.prestadores ? (prestador.prestadores.avaliacao_media || 0) : 0 %> / 5</p>
+              </div>
+            </div>
+            <div class="item-config">
+              <div>
+                <strong>Total de avaliacoes</strong>
+                <p><%= prestador.prestadores ? (prestador.prestadores.total_avaliacoes || 0) : 0 %> feedbacks recebidos.</p>
+              </div>
+            </div>
+            <div class="item-config">
+              <div>
+                <strong>Total de pedidos</strong>
+                <p><%= prestador.prestadores ? (prestador.prestadores.total_pedidos || 0) : 0 %> pedidos processados.</p>
+              </div>
+            </div>
+            <div class="item-config">
+              <div>
+                <strong>Perfil publico activo</strong>
+                <p>Controle fino desta opcao fica em Definicoes.</p>
+              </div>
+              <input type="checkbox" <%= prestador.prestadores && prestador.prestadores.perfil_publico_activo ? 'checked' : '' %> disabled />
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <%- include("../partials/footer-simples") %>
+
+    <script>
+      async function guardarPerfilPrestador() {
+        const feedback = document.getElementById("perfil-prestador-feedback");
+        const payload = {
+          nome: document.getElementById("pp-nome").value,
+          telefone: document.getElementById("pp-telefone").value,
+          especialidade: document.getElementById("pp-especialidade").value,
+          cidade: document.getElementById("pp-cidade").value,
+          anosExp: document.getElementById("pp-anos").value,
+          precoMedio: document.getElementById("pp-preco").value,
+          biografia: document.getElementById("pp-bio").value
+        };
+        try {
+          const resposta = await fetch("/dashboard/api/perfil", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const resultado = await resposta.json();
+          if (!resultado.success) throw new Error(resultado.erro || "Erro ao actualizar perfil.");
+          feedback.style.color = "green";
+          feedback.textContent = resultado.mensagem;
+        } catch (erro) {
+          feedback.style.color = "#c44536";
+          feedback.textContent = erro.message;
+        }
+      }
+    </script>
+  </body>
+</html>

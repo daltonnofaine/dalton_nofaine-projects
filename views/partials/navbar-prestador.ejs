@@ -1,0 +1,20 @@
+<nav>
+  <div class="logo">
+    <a href="/" style="text-decoration:none; color:inherit;"><span style="color:var(--vermelho);">Serv-</span>Link</a>
+  </div>
+  <div class="nav-links-Dashboard">
+    <a href="/" class="link-nav">Inicio</a>
+    <a href="/servicos" class="link-nav">Central de Servicos</a>
+    <a href="/dashboard/perfil" class="user-box" aria-label="Abrir perfil do prestador">
+      <div class="avatar">
+        <% if (sessao && sessao.avatarUrl) { %>
+          <img src="<%= sessao.avatarUrl %>" alt="Foto do usuario">
+        <% } else { %>
+          <img src="/img/shared/avatares/iconi_perfil.svg" alt="Foto do usuario">
+        <% } %>
+      </div>
+      <span class="nome-user"><%= sessao ? sessao.nome : "Prestador" %></span>
+    </a>
+    <a href="/auth/logout" class="btn-sair">Sair</a>
+  </div>
+</nav>

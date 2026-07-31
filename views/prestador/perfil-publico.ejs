@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil Publico - Serv-Link</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/perfil-prestador-publico.css" />
+  </head>
+  <body>
+    <% if (sessao && sessao.perfil === "cliente") { %>
+      <%- include("../partials/navbar-cliente") %>
+    <% } else { %>
+      <%- include("../partials/navbar-public") %>
+    <% } %>
+
+    <main style="padding:20px;">
+      <p><a href="/servicos">← Voltar</a></p>
+      <h1><%= prestador.utilizadores ? prestador.utilizadores.nome : "Prestador" %></h1>
+      <p>Especialidade: <%= prestador.especialidade || "N/A" %></p>
+      <p>Cidade: <%= prestador.cidade || "N/A" %></p>
+      <p>Avaliacao: <%= prestador.avaliacao_media || 0 %> (<%= prestador.total_avaliacoes || 0 %>)</p>
+      <p>Experiencia: <%= prestador.anos_experiencia || "N/A" %></p>
+      <p><%= prestador.biografia || "" %></p>
+
+      <section style="margin-top:20px;">
+        <h2>Servicos deste prestador</h2>
+        <% if (servicos.length === 0) { %>
+          <p>Sem servicos activos.</p>
+        <% } else { %>
+          <ul>
+            <% servicos.forEach((s) => { %>
+              <li>
+                <a href="/servicos/<%= s.id %>"><%= s.titulo %></a>
+                — <%= formatarPreco(s.preco) %> / <%= s.unidade_preco || "servico" %>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </section>
+    </main>
+
+    <%- include("../partials/footer-simples") %>
+  </body>
+  </html>
+

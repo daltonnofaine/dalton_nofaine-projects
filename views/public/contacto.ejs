@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Contacto</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/institucional/institucional.css" />
+  </head>
+  <body>
+    <% if (sessao && sessao.perfil === "cliente") { %>
+      <%- include("../partials/navbar-cliente") %>
+    <% } else { %>
+      <%- include("../partials/navbar-public") %>
+    <% } %>
+
+    <main class="institucional-main">
+      <section class="intro-card">
+        <p class="etiqueta">Fale Connosco</p>
+        <h1>Estamos disponiveis para suporte, duvidas e sugestoes.</h1>
+        <p>
+          Esta pagina centraliza os principais canais de contacto do Serv-Link.
+          Mantivemos a mesma hierarquia visual do prototipo estatico, agora ligada ao backend real.
+        </p>
+      </section>
+
+      <section class="conteudo-grid">
+        <article class="bloco-info">
+          <h2>Contactos Diretos</h2>
+          <ul>
+            <li>Email: <a href="mailto:info@serv-link.co.mz">info@serv-link.co.mz</a></li>
+            <li>Telefone: <a href="tel:+258840000000">+258 84 000 0000</a></li>
+            <li>Horario: Segunda a Sexta, 08:00 - 17:00</li>
+          </ul>
+        </article>
+
+        <article class="bloco-info">
+          <h2>Morada</h2>
+          <p>
+            Av. Eduardo Mondlane, 1200<br />
+            Maputo, Mocambique
+          </p>
+        </article>
+
+        <article class="bloco-info">
+          <h2>Formulario Simples</h2>
+          <% if (enviado) { %>
+            <p class="nota-form" style="color: green;">Mensagem enviada com sucesso.</p>
+          <% } %>
+          <% if (erro) { %>
+            <p class="nota-form" style="color: var(--vermelho);"><%= erro %></p>
+          <% } %>
+          <form class="form-institucional" action="/contacto" method="post">
+            <div class="campo">
+              <label for="nome">Nome</label>
+              <input id="nome" name="nome" type="text" placeholder="O seu nome" required />
+            </div>
+            <div class="campo">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="exemplo@email.com" required />
+            </div>
+            <div class="campo">
+              <label for="mensagem">Mensagem</label>
+              <textarea id="mensagem" name="mensagem" placeholder="Escreva a sua mensagem" required></textarea>
+            </div>
+            <button type="submit" class="btn-enviar">Enviar</button>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <%- include("../partials/footer-completo") %>
+  </body>
+</html>

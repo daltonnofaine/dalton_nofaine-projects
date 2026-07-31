@@ -1,0 +1,318 @@
+/* Estilos da pagina de detalhe */
+
+
+/* Divide a pagina em duas partes */
+.layout-detalhe {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+}
+
+
+/* Parte principal com os dados do servico */
+.coluna-principal {
+  padding: 36px;
+  border-right: 2px solid var(--borda);
+}
+
+.caminho {
+  font-size: 14px;
+  color: #22314a;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.caminho span {
+  color: var(--preto);
+  font-weight: bold;
+}
+
+.imagem-principal img {
+  background: var(--fundo);
+  border: 2px solid var(--borda);
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--cinza);
+  margin-bottom: 24px;
+}
+
+.etiqueta-categoria {
+  display: inline-block;
+  background: var(--vermelho);
+  color: var(--branco);
+  font-size: 9px;
+  font-weight: bold;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.titulo-servico {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.meta-servico {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 15px;
+  color: #22314a;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.meta-servico .avaliacao {
+  color: #F4A100;
+  font-size: 14px;
+}
+
+.meta-servico strong {
+  color: var(--preto);
+}
+
+.card-prestador-mini {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  margin-bottom: 24px;
+}
+
+.card-prestador-mini .avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--preto);
+  flex-shrink: 0;
+  border: 2px solid var(--borda);
+}
+
+.card-prestador-mini h4 {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.card-prestador-mini p {
+  font-size: 15px;
+  color: #162338;
+  font-weight: 600;
+}
+
+.abas {
+  display: flex;
+  border-bottom: 2px solid var(--borda);
+  margin-bottom: 22px;
+}
+
+.abas .aba {
+  padding: 11px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #22314a;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.abas .aba.activa {
+  color: var(--preto);
+  border-color: var(--preto);
+}
+
+.descricao p {
+  font-size: 16px;
+  color: #162338;
+  line-height: 1.8;
+  font-weight: 600;
+}
+
+.descricao-secundaria {
+  font-size: 15px;
+  color: #22314a;
+  line-height: 1.75;
+  font-weight: 600;
+}
+
+
+/* Caixa lateral para o pedido */
+.coluna-sidebar {
+  padding: 36px;
+}
+
+.caixa-contacto {
+  border: 2px solid var(--preto);
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--branco);
+}
+
+.caixa-contacto .topo {
+  background: var(--preto);
+  color: var(--branco);
+  padding: 14px 16px;
+}
+
+.caixa-contacto .topo .topo-titulo {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.caixa-contacto .topo p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.caixa-contacto .corpo {
+  padding: 16px;
+}
+
+.caixa-contacto .preco-grande {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.caixa-contacto .preco-unidade {
+  font-size: 14px;
+  color: #22314a;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.etiquetas-servico {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 0 0 14px;
+}
+
+.etiquetas-servico span {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 7px;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  border-radius: 20px;
+}
+
+.caixa-contacto .dois-campos {
+  gap: 10px;
+}
+
+.btn-contacto {
+  width: 100%;
+  padding: 13px;
+  background: var(--vermelho);
+  border: none;
+  color: var(--branco);
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.info-prestador {
+  margin-top: 18px;
+  padding: 14px;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+}
+
+.info-prestador .titulo {
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.info-prestador .linha {
+  font-size: 15px;
+  color: #22314a;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.nav-voltar {
+  color: var(--vermelho);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.prestador-acoes {
+  margin-left: auto;
+}
+
+.prestador-acoes .btn {
+  font-size: 13px;
+}
+
+@media (max-width: 980px) {
+  .layout-detalhe {
+    grid-template-columns: 1fr;
+  }
+
+  .coluna-principal {
+    border-right: none;
+    border-bottom: 1px solid var(--borda);
+    padding: 24px;
+  }
+
+  .coluna-sidebar {
+    padding: 24px;
+  }
+
+  .imagem-principal img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+  }
+
+  .meta-servico {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .coluna-principal,
+  .coluna-sidebar {
+    padding: 18px;
+  }
+
+  .titulo-servico {
+    font-size: 20px;
+  }
+
+  .card-prestador-mini {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-prestador-mini > div:last-child {
+    margin-left: 0 !important;
+  }
+
+  .abas {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .caixa-contacto .dois-campos {
+    grid-template-columns: 1fr;
+  }
+}
+

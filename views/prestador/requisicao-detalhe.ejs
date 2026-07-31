@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Requisicao</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/dashboard.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-prestador") %>
+
+    <div class="layout-dashboard">
+      <%- include("../partials/sidebar-prestador") %>
+
+      <div class="conteudo-dashboard">
+        <section class="secao-dashboard activa">
+          <div class="cabecalho-dash">
+            <div>
+              <h2>Requisicao #RQ-<%= String(pedido.id).slice(0, 6) %></h2>
+              <p>Cliente: <%= pedido.clientes && pedido.clientes.utilizadores ? pedido.clientes.utilizadores.nome : (pedido.nome_cliente || 'Cliente') %> • Servico: <%= pedido.servicos ? pedido.servicos.titulo : 'Pedido' %> • Estado: <%= pedido.estado %></p>
+            </div>
+            <a href="/dashboard/pedidos" class="btn">← Voltar para Requisicoes</a>
+          </div>
+
+          <div class="abas-requisicao">
+            <a href="#aba-detalhes" class="aba-item activa">Detalhes da Requisicao</a>
+            <a href="#aba-conversa" class="aba-item">Conversa</a>
+          </div>
+
+          <div id="aba-detalhes" class="layout-requisicao">
+            <article class="painel painel-detalhes">
+              <div class="cabecalho-painel">Informacoes do Cliente e Pedido</div>
+              <div class="corpo-painel">
+                <div class="grade-info-requisicao">
+                  <div><span>Nome do Cliente</span><strong><%= pedido.clientes && pedido.clientes.utilizadores ? pedido.clientes.utilizadores.nome : (pedido.nome_cliente || 'N/A') %></strong></div>
+                  <div><span>Telefone</span><strong><%= pedido.telefone_cliente || 'N/A' %></strong></div>
+                  <div><span>Projeto</span><strong><%= pedido.servicos ? pedido.servicos.titulo : 'Pedido' %></strong></div>
+                  <div><span>Janela de Trabalho</span><strong><%= pedido.periodo || 'A combinar' %></strong></div>
+                  <div><span>Urgencia</span><strong><%= pedido.urgencia || 'Normal' %></strong></div>
+                  <div><span>Data de Envio</span><strong><%= formatarData(pedido.criado_em) %></strong></div>
+                </div>
+                <div class="bloco-descricao-requisicao">
+                  <h4>Descricao completa</h4>
+                  <p><%= pedido.descricao || 'Sem descricao detalhada.' %></p>
+                </div>
+              </div>
+            </article>
+
+            <article class="painel painel-detalhes">
+              <div class="cabecalho-painel">Accoes da Requisicao</div>
+              <div class="corpo-painel">
+                <div id="estado-feedback" class="nota-form" style="color: var(--vermelho);"></div>
+                <div class="accoes-requisicao">
+                  <button class="btn-preenchido" onclick="mudarEstado('<%= pedido.id %>', 'confirmado')" type="button">Confirmar Atendimento</button>
+                  <button class="btn" onclick="mudarEstado('<%= pedido.id %>', 'em_curso')" type="button">Marcar Em Curso</button>
+                  <button class="btn" onclick="mudarEstado('<%= pedido.id %>', 'concluido')" type="button">Marcar Como Concluida</button>
+                  <button class="btn" onclick="mudarEstado('<%= pedido.id %>', 'cancelado')" type="button">Cancelar</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <article id="aba-conversa" class="painel conversa-painel">
+            <div class="cabecalho-painel">Conversa da Requisicao</div>
+            <div class="thread-conversa" id="thread-msgs-dash">
+              <% if (!mensagens.length) { %>
+                <p class="sem-msgs">Sem mensagens ainda.</p>
+              <% } else { %>
+                <% mensagens.forEach((m) => { %>
+                  <% const classeMensagem = m.remetente_id === pedido.cliente_id ? 'cliente' : 'prestador'; %>
+                  <div class="mensagem-chat <%= classeMensagem %>">
+                    <strong><%= m.utilizadores ? m.utilizadores.nome : 'Utilizador' %></strong>
+                    <p><%= m.conteudo %></p>
+                    <small><%= formatarHora(m.enviado_em) %></small>
+                  </div>
+                <% }) %>
+              <% } %>
+            </div>
+            <% if (["pendente", "confirmado", "em_curso"].includes(pedido.estado)) { %>
+              <div class="composer-conversa">
+                <textarea id="input-msg-dash" placeholder="Escreva uma resposta para o cliente..."></textarea>
+                <button class="btn-preenchido" onclick="enviarMsgDash('<%= pedido.id %>')" type="button">Enviar Mensagem</button>
+              </div>
+            <% } %>
+          </article>
+        </section>
+      </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+
+    <script>
+      async function mudarEstado(pedidoId, estado) {
+        const feedback = document.getElementById("estado-feedback");
+        try {
+          const resposta = await fetch(`/dashboard/api/pedidos/${pedidoId}/estado`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado })
+          });
+          const resultado = await resposta.json();
+          if (!resultado.success) throw new Error(resultado.erro || "Falha ao actualizar estado.");
+          feedback.style.color = "green";
+          feedback.textContent = `Estado actualizado para ${estado}.`;
+          setTimeout(() => window.location.reload(), 600);
+        } catch (erro) {
+          feedback.style.color = "#c44536";
+          feedback.textContent = erro.message;
+        }
+      }
+
+      async function enviarMsgDash(pedidoId) {
+        const input = document.getElementById("input-msg-dash");
+        const thread = document.getElementById("thread-msgs-dash");
+        const conteudo = input.value.trim();
+        if (!conteudo) return;
+
+        const resposta = await fetch(`/dashboard/api/pedidos/${pedidoId}/mensagens`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ conteudo })
+        });
+        const resultado = await resposta.json();
+        if (!resultado.success) {
+          alert(resultado.erro || "Erro ao enviar mensagem.");
+          return;
+        }
+
+        const vazio = thread.querySelector(".sem-msgs");
+        if (vazio) vazio.remove();
+
+        const bloco = document.createElement("div");
+        bloco.className = "mensagem-chat prestador";
+        bloco.innerHTML = `<strong>Tu</strong><p>${conteudo.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</p><small>Agora</small>`;
+        thread.appendChild(bloco);
+        input.value = "";
+      }
+    </script>
+  </body>
+</html>

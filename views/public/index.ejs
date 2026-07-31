@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serv-Link - Home</title>
+  <link rel="stylesheet" href="/css/home/index.css">
+  <link rel="stylesheet" href="/css/base/estilo.css">
+</head>
+<body>
+  <% if (sessao && sessao.perfil === "cliente") { %>
+    <%- include("../partials/navbar-cliente") %>
+  <% } else { %>
+    <%- include("../partials/navbar-public") %>
+  <% } %>
+
+  <main>
+    <section class="hero">
+      <% if (sessao && sessao.perfil === "cliente") { %>
+        <h1>Encontre o Servico <span>certo</span><br>de Forma Rapida, Para o que voce Precisa</h1>
+      <% } else { %>
+        <h1>Encontre o Servico <span>certo</span><br>de Forma Rapida, Para o que voce Precisa</h1>
+      <% } %>
+      <p>Conectamos voce com os melhores prestadores de servicos da sua cidade.</p>
+
+      <div class="barra-pesquisa">
+        <input type="text" id="home-busca" placeholder="Que servico voce precisa? Ex: Canalizador, Electricista...">
+        <button type="button" onclick="buscarHome()">Buscar</button>
+      </div>
+
+      <div class="numeros">
+        <div>
+          <div class="numero"><%= estatisticas.totalPrestadores %>+</div>
+          <div class="legenda">Prestadores activos</div>
+        </div>
+        <div>
+          <div class="numero"><%= estatisticas.totalConcluidos %>+</div>
+          <div class="legenda">Servicos realizados</div>
+        </div>
+        <div>
+          <div class="numero"><%= estatisticas.totalServicos > 0 ? "98%" : "0%" %></div>
+          <div class="legenda">Satisfacao</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="destaques-categorias">
+      <div class="cabecalho-sec">
+        <h2>Categorias de Servicos em <span>Destaque</span></h2>
+        <a href="/servicos">Ver Servicos</a>
+      </div>
+      <div class="grade-destaques">
+        <% if (categorias.length > 0) { %>
+          <% categorias.slice(0, 4).forEach((cat, index) => { %>
+            <article class="card-destaque">
+              <div class="imagem-destaque">
+                <% if (cat.icone_url) { %>
+                  <img src="<%= cat.icone_url %>" alt="<%= cat.nome %>">
+                <% } %>
+              </div>
+              <h4 style="color:var(--vermelho) ;"><%= cat.nome %></h4>
+              <p>Categoria em destaque na plataforma Serv-Link.</p>
+              <div class="meta-destaque"><%= 80 + (index * 17) %> pedidos no mes</div>
+            </article>
+          <% }) %>
+        <% } %>
+      </div>
+    </section>
+
+    <section id="como_funciona" class="como-funciona">
+      <h2>Como <span>funciona</span></h2>
+      <div class="passos">
+        <div class="passo">
+          <div class="numero-passo">Passo 01</div>
+          <h4>Pesquise</h4>
+          <p>Procure o tipo de servico que precisa usando a barra de pesquisa.</p>
+        </div>
+        <div class="passo">
+          <div class="numero-passo">Passo 02</div>
+          <h4>Escolha</h4>
+          <p>Compare perfis, avaliacoes e precos dos prestadores disponiveis.</p>
+        </div>
+        <div class="passo">
+          <div class="numero-passo">Passo 03</div>
+          <h4>Contacte</h4>
+          <p>Entre em contacto directo com o prestador e combinem os detalhes.</p>
+        </div>
+        <div class="passo">
+          <div class="numero-passo">Passo 04</div>
+          <h4>Avalie</h4>
+          <p>Apos o servico, deixe a sua avaliacao e ajude a comunidade.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="prestadores_sec" class="prestadores-verificados">
+      <div class="cabecalho-sec">
+        <h2>Prestadores <span>verificados</span></h2>
+        <a href="/servicos">Ver todos</a>
+      </div>
+      <div class="lista-prestadores">
+        <% if (categorias.length > 0) { %>
+          <% categorias.slice(0, 4).forEach((cat, index) => { %>
+            <div class="card-prestador">
+              <div class="avatar"><img src="/img/shared/avatares/iconi_perfil.svg" alt="Avatar do prestador"></div>
+              <div>
+                <h4>Prestador <%= index + 1 %></h4>
+                <div class="especialidade"><%= cat.nome %></div>
+                <div class="verificado">Verificado</div>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../partials/footer-completo") %>
+
+  <script>
+    function buscarHome() {
+      const valor = document.getElementById("home-busca").value.trim();
+      const destino = valor ? `/servicos?q=${encodeURIComponent(valor)}` : "/servicos";
+      window.location.href = destino;
+    }
+  </script>
+</body>
+</html>

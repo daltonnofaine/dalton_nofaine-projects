@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Dashboard - Definicoes</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/prestador/dashboard.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar-prestador") %>
+
+    <div class="layout-dashboard">
+      <%- include("../partials/sidebar-prestador") %>
+
+      <div class="conteudo-dashboard">
+        <section class="secao-dashboard activa" id="secao-definicoes">
+          <div class="cabecalho-dash">
+            <div>
+              <h2>Definicoes</h2>
+              <p>Ajuste as preferencias da sua conta e notificacoes</p>
+            </div>
+          </div>
+
+          <div class="painel">
+            <div class="cabecalho-painel">Configuracoes da Conta</div>
+            <div class="form-definicoes">
+              <div id="def-feedback" class="nota-form" style="color: var(--vermelho);"></div>
+              <div class="dois-campos">
+                <div class="campo">
+                  <label>Nome de exibicao</label>
+                  <input type="text" value="<%= perfil.nome %>" disabled />
+                </div>
+                <div class="campo">
+                  <label>Telefone</label>
+                  <input type="text" value="<%= perfil.telefone || '' %>" disabled />
+                </div>
+              </div>
+              <div class="item-definicao">
+                <div>
+                  <strong>Notificacoes por email</strong>
+                  <p>Receber alertas de novos pedidos e mensagens.</p>
+                </div>
+                <input type="checkbox" id="def-notif-email" <%= perfil.prestadores && perfil.prestadores.notif_email ? 'checked' : '' %> />
+              </div>
+              <div class="item-definicao">
+                <div>
+                  <strong>Perfil publico activo</strong>
+                  <p>Permitir que clientes encontrem seu perfil.</p>
+                </div>
+                <input type="checkbox" id="def-perfil-publico" <%= perfil.prestadores && perfil.prestadores.perfil_publico_activo ? 'checked' : '' %> />
+              </div>
+              <div class="item-definicao">
+                <div>
+                  <strong>Receber novos pedidos</strong>
+                  <p>Continuar recebendo solicitacoes de servico.</p>
+                </div>
+                <input type="checkbox" id="def-receber-pedidos" <%= perfil.prestadores && perfil.prestadores.receber_pedidos ? 'checked' : '' %> />
+              </div>
+              <div class="item-definicao">
+                <div>
+                  <strong>Modo indisponivel</strong>
+                  <p>Pausar recebimento de novas solicitacoes temporariamente.</p>
+                </div>
+                <input type="checkbox" id="def-disponivel" <%= perfil.prestadores && perfil.prestadores.disponivel ? 'checked' : '' %> />
+              </div>
+              <button class="btn-preenchido btn-salvar" onclick="guardarDefinicoes()" type="button">Guardar Definicoes</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <%- include("../partials/footer-simples") %>
+    <script>
+      async function guardarDefinicoes() {
+        const feedback = document.getElementById("def-feedback");
+        const payload = {
+          disponivel: document.getElementById("def-disponivel").checked,
+          perfilPublico: document.getElementById("def-perfil-publico").checked,
+          receberPedidos: document.getElementById("def-receber-pedidos").checked,
+          notifEmail: document.getElementById("def-notif-email").checked
+        };
+        try {
+          const resposta = await fetch("/dashboard/api/definicoes", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const resultado = await resposta.json();
+          if (!resultado.success) throw new Error(resultado.erro || "Erro ao guardar definicoes.");
+          feedback.style.color = "green";
+          feedback.textContent = resultado.mensagem;
+        } catch (erro) {
+          feedback.style.color = "#c44536";
+          feedback.textContent = erro.message;
+        }
+      }
+    </script>
+  </body>
+</html>

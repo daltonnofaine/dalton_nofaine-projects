@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serv-Link - Sobre</title>
+    <link rel="stylesheet" href="/css/base/estilo.css" />
+    <link rel="stylesheet" href="/css/institucional/institucional.css" />
+  </head>
+  <body>
+    <% if (sessao && sessao.perfil === "cliente") { %>
+      <%- include("../partials/navbar-cliente") %>
+    <% } else { %>
+      <%- include("../partials/navbar-public") %>
+    <% } %>
+
+    <main class="institucional-main">
+      <section class="intro-card">
+        <p class="etiqueta">Sobre o Projeto</p>
+        <h1>Serv-Link conecta clientes a prestadores de servicos locais de forma simples e clara.</h1>
+        <p>
+          Este prototipo foi desenvolvido com HTML, CSS e backend Node.js para apresentar uma interface organizada,
+          navegacao intuitiva e conteudo consistente entre as paginas.
+        </p>
+      </section>
+
+      <section class="conteudo-grid">
+        <article class="bloco-info">
+          <h2>Missao</h2>
+          <p>
+            Facilitar o encontro entre quem precisa de um servico e profissionais confiaveis,
+            com foco em rapidez, clareza e boa experiencia do utilizador.
+          </p>
+        </article>
+
+        <article class="bloco-info">
+          <h2>Visao</h2>
+          <p>
+            Ser uma referencia local em intermediacao de servicos, valorizando perfis verificados,
+            avaliacoes transparentes e comunicacao direta.
+          </p>
+        </article>
+
+        <article class="bloco-info">
+          <h2>Valores</h2>
+          <ul>
+            <li>Transparencia nos perfis e avaliacoes.</li>
+            <li>Confianca entre clientes e prestadores.</li>
+            <li>Simplicidade na navegacao e no uso da plataforma.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="cta-card">
+        <h2>Quer saber mais?</h2>
+        <p>Visite a pagina de contacto para suporte, sugestoes e informacoes institucionais.</p>
+        <a class="btn-vermelho" href="/contacto">Ir para Contacto</a>
+      </section>
+    </main>
+
+    <%- include("../partials/footer-completo") %>
+  </body>
+</html>

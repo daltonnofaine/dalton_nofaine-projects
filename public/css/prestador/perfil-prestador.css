@@ -1,0 +1,164 @@
+/* Estilos do perfil do prestador */
+
+/* Organiza o resumo e as definicoes do perfil */
+.layout-prestador {
+  padding: 30px;
+  background: var(--fundo);
+  min-height: calc(100vh - 60px);
+}
+
+.cabecalho-prestador {
+  background: var(--branco);
+  border: 2px solid var(--borda);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.avatar-grande {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--vermelho);
+}
+
+.avatar-grande img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cabecalho-prestador h1 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.cabecalho-prestador p {
+  font-size: 13px;
+  color: var(--cinza);
+}
+
+.grade-perfil-prestador {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.painel {
+  background: var(--branco);
+  border: 2px solid var(--borda);
+}
+
+.cabecalho-painel {
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--borda);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.corpo-painel {
+  padding: 16px;
+}
+
+.item-config {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borda);
+}
+
+.item-config:last-child {
+  border-bottom: none;
+}
+
+.item-config strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.item-config p {
+  font-size: 13px;
+  color: var(--cinza);
+}
+
+.item-config input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--vermelho);
+}
+
+.resumo-grid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.resumo-item {
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  padding: 14px;
+}
+
+.resumo-item .rotulo {
+  display: block;
+  font-size: 13px;
+  color: var(--cinza);
+  margin-bottom: 6px;
+}
+
+.resumo-item strong {
+  font-size: 24px;
+}
+
+@media (max-width: 980px) {
+  .layout-prestador {
+    padding: 20px 18px 24px;
+  }
+
+  .cabecalho-prestador {
+    grid-template-columns: auto 1fr;
+  }
+
+  .cabecalho-prestador .btn-vermelho {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .grade-perfil-prestador {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .cabecalho-prestador {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .avatar-grande {
+    width: 62px;
+    height: 62px;
+  }
+
+  .cabecalho-prestador h1 {
+    font-size: 18px;
+  }
+
+  .resumo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

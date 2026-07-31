@@ -1,0 +1,10 @@
+<aside class="sidebar-dashboard">
+  <div class="logo-sidebar">Serv-Link</div>
+  <a href="/dashboard" class="item-menu <%= paginaActiva === 'visao-geral' ? 'activo' : '' %>">Visao Geral</a>
+  <a href="/dashboard/servicos" class="item-menu <%= paginaActiva === 'servicos' ? 'activo' : '' %>">Os Meus Servicos</a>
+  <a href="/dashboard/pedidos" class="item-menu <%= paginaActiva === 'pedidos' ? 'activo' : '' %>">Pedidos</a>
+  <a href="/dashboard/avaliacoes" class="item-menu <%= paginaActiva === 'avaliacoes' ? 'activo' : '' %>">Avaliacoes</a>
+  <a href="/dashboard/perfil" class="item-menu link-menu <%= paginaActiva === 'perfil' ? 'activo' : '' %>">Perfil</a>
+  <a href="/dashboard/definicoes" class="item-menu separador <%= paginaActiva === 'definicoes' ? 'activo' : '' %>">Definicoes</a>
+  <a href="/auth/logout" class="item-menu link-menu">Sair</a>
+</aside>
